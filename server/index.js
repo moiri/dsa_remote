@@ -1,8 +1,8 @@
 // Setup basic express server
-var express = require('node_modules/express');
+var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var io = require('node_modules/socket.io')(server);
+var io = require('socket.io')(server);
 var port = process.env.PORT || 8000;
 
 server.listen(port, function () {

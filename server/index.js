@@ -1,16 +1,16 @@
 // Setup basic express server
-var express = require('express');
+var express = require('node_modules/express');
 var app = express();
 var server = require('http').createServer(app);
-var io = require('../..')(server);
-var port = process.env.PORT || 3000;
+var io = require('node_modules/socket.io')(server);
+var port = process.env.PORT || 8000;
 
 server.listen(port, function () {
     console.log('Server listening at port %d', port);
 });
 
 // Routing
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
 
 // Chatroom
 

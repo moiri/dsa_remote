@@ -1,0 +1,19 @@
+.msg-wrap {
+    overflow-y:scroll;
+    max-height:800px;
+}
+.media-heading {
+    font-size:1.4em;
+    font-weight:bold;
+    margin:0px;
+}
+.message {
+    margin-bottom:5px;
+}
+.media-heading {
+    font-size:1.5em;
+    font-weight:bold;
+}
+.media-msg {
+    margin-left:8px;
+}

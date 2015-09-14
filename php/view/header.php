@@ -1,3 +1,5 @@
+<?php $css=' class="active"'; ?>
+
    <div class="row">
       <div class="col-md-12">
          <nav class="navbar navbar-inverse" role="navigation">
@@ -14,7 +16,18 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                <ul class="nav navbar-nav">
-                  <li><a href="#">About</a></li>
+                  <li<?php if($_GET['page'] == '1') echo $css;?>>
+                     <a href="../dsa_map">Karte</a>
+                  </li>
+                  <li<?php if($_GET['page'] == '2') echo $css;?>>
+                     <a href="?page=2">Heldenbrief</a>
+                  </li>
+                  <li<?php if($_GET['page'] == '3') echo $css;?>>
+                     <a href="?page=3">Limbusportal</a>
+                  </li>
+                  <li<?php if($_GET['page'] == '4') echo $css;?>>
+                     <a href="?page=4">About</a>
+                  </li>
                </ul>
                <ul class="nav navbar-nav navbar-right">
 <?php

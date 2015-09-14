@@ -18,53 +18,35 @@ $registration = new Registration();
 <meta name="DC.language" content="en" />
 <link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap-theme.css" />
+<link rel="stylesheet" type="text/css" href="chat/chat.css" />
 <script src="plugin/jquery/jquery.js" type="text/javascript"></script>
 <script src="plugin/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+<script src="js/socket.io.js" type="text/javascript"></script>
+<script src="js/chat.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="container-fluid">
-<?php include("php/view/header.php");?>
-<div class="container">
-    <div class="jumbotron">
-        <h1>DSA Remote</h1>
-        <p>Eine Kollektion von Tools die zum spielen des Rollenspiels "Das Schwarze Auge" nützlich sein können.</p>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-md-4">
-            <a href="../dsa_map/" class="thumbnail" style="text-decoration:none">
-            <img src="img/map_tmb.jpg" alt="Karte">
-            <div class="caption">
-                <h3>Karte</h3>
-                <p style="text-underlin:none">Entdecke Aventurien auf einer interaktive Karte und lasse dir
-                auch die entferntesten Ecken des Kontinents zeigen.</p>
-            </div>
-            </a>
-        </div>
-        <div class="col-sm-6 col-md-4">
-            <a href="#" class="thumbnail" style="text-decoration:none">
-            <img src="img/sheet_tmb.jpg" alt="Heldenbrief">
-            <div class="caption">
-                <h3>Heldenbrief</h3>
-                <p>Hat den Heldenbogen schon Löcher vom ewigen Radieren? Hier ist
-                die Lösung: Verwalte deine Helden online.</p>
-            </div>
-            </a>
-        </div>
-        <div class="col-sm-6 col-md-4">
-            <a href="limbusportal.php" class="thumbnail" style="text-decoration:none">
-            <img src="img/chat_tmb.jpg" alt="Limbusportal">
-            <div class="caption">
-                <h3>Limbusportal</h3>
-                <p>Verunmöglicht der Wegzug eines Spielers weitere Erlebnisse am
-                Spieltisch? Kein Problem! Erlebe DSA auch über grösste Distanzen
-                mit Hilfe des Limbusportals.</p>
-            </div>
-            </a>
-        </div>
-    </div>
-<?php include("php/view/footer.php");?>
-</div>
-</div>
+<?php
+include("php/view/header.php");
+$mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
+switch ($mypage) {
+    case '0':
+        include("php/view/home.php");
+        break;
 
+    case '3':
+        if($login->isUserLoggedIn())
+            include("php/view/portal.php");
+        else
+            include("php/view/denied.php");
+        break;
+
+    default:
+        include("php/view/404.php");
+}
+include("php/view/footer.php");
+?>
+</div>
 </body>
 </html>

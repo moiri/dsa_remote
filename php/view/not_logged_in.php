@@ -3,7 +3,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Register <b class="caret"></b></a>
     <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
         <li><div class="row"><div class="col-md-12">
-            <form method="post" action="index.php" name="registerform">
+            <form method="post" name="registerform">
 
                 <!-- the user name input field uses a HTML5 pattern check -->
                 <div class="form-group">
@@ -35,7 +35,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
     <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
         <li><div class="row"><div class="col-md-12">
-            <form method="post" action="index.php" name="loginform">
+            <form method="post" name="loginform">
                 <div class="form-group">
                     <label class="sr-only" for="login_input_username">Username</label>
                     <input id="login_input_username" class="login_input" type="text" placeholder="Username" name="user_name" required />

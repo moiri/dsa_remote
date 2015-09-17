@@ -20,7 +20,7 @@ $registration = new Registration();
 <link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap-theme.min.css" />
 <link rel="stylesheet" type="text/css" href="chat/chat.css" />
 <script src="plugin/jquery/jquery.js" type="text/javascript"></script>
-<script src="plugin/bootstrap/js/bootstrap.js.min" type="text/javascript"></script>
+<script src="plugin/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/portal.js" type="text/javascript"></script>
 <script src="js/socket.io.js" type="text/javascript"></script>
 <script src="js/chat.js" type="text/javascript"></script>

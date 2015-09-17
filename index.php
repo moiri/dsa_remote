@@ -16,11 +16,11 @@ $registration = new Registration();
 <meta name="DC.title" content="DSA Remote" />
 <meta name="DC.date" content="2015-09-12" />
 <meta name="DC.language" content="en" />
-<link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap-theme.css" />
+<link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap-theme.min.css" />
 <link rel="stylesheet" type="text/css" href="chat/chat.css" />
 <script src="plugin/jquery/jquery.js" type="text/javascript"></script>
-<script src="plugin/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="plugin/bootstrap/js/bootstrap.js.min" type="text/javascript"></script>
 <script src="js/portal.js" type="text/javascript"></script>
 <script src="js/socket.io.js" type="text/javascript"></script>
 <script src="js/chat.js" type="text/javascript"></script>
@@ -37,7 +37,7 @@ switch ($mypage) {
 
     case '3':
         if($login->isUserLoggedIn())
-            include("server/view/portal.php");
+            include("server/view/portal/index.php");
         else
             include("server/view/denied.php");
         break;

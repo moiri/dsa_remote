@@ -10,11 +10,13 @@
                 <h4 class="list-group-item-heading">Session-Name 1</h4>
                 <p class="list-group-item-text">Beschreibung</p>
             </a>
-            <a href="#" class="list-group-item">
+            <a href="#" class="list-group-item list-group-item-info">
+                <span class="badge">4</span>
                 <h4 class="list-group-item-heading">Session-Name 2</h4>
                 <p class="list-group-item-text">Beschreibung</p>
             </a>
-            <a href="#" class="list-group-item">
+            <a href="#" class="list-group-item active">
+                <span class="badge">3</span>
                 <h4 class="list-group-item-heading">Session-Name 3</h4>
                 <p class="list-group-item-text">Beschreibung</p>
             </a>

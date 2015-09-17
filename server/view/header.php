@@ -32,9 +32,9 @@
                <ul class="nav navbar-nav navbar-right">
 <?php
 if ($login->isUserLoggedIn()) {
-    include("php/view/logged_in.php");
+    include("server/view/logged_in.php");
 } else {
-    include("php/view/not_logged_in.php");
+    include("server/view/not_logged_in.php");
 }
 ?>
                </ul>

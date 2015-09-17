@@ -1,7 +1,7 @@
 <?php
-require_once("php/secure/globals.php");
-require_once("php/class/login.php");
-require_once("php/class/registration.php");
+require_once("server/secure/globals.php");
+require_once("server/class/login.php");
+require_once("server/class/registration.php");
 $login = new Login();
 $registration = new Registration();
 ?>
@@ -21,31 +21,31 @@ $registration = new Registration();
 <link rel="stylesheet" type="text/css" href="chat/chat.css" />
 <script src="plugin/jquery/jquery.js" type="text/javascript"></script>
 <script src="plugin/bootstrap/js/bootstrap.js" type="text/javascript"></script>
-<script src="js/main.js" type="text/javascript"></script>
+<script src="js/portal.js" type="text/javascript"></script>
 <script src="js/socket.io.js" type="text/javascript"></script>
 <script src="js/chat.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="container-fluid">
 <?php
-include("php/view/header.php");
+include("server/view/header.php");
 $mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
 switch ($mypage) {
     case '0':
-        include("php/view/home.php");
+        include("server/view/home.php");
         break;
 
     case '3':
         if($login->isUserLoggedIn())
-            include("php/view/portal.php");
+            include("server/view/portal.php");
         else
-            include("php/view/denied.php");
+            include("server/view/denied.php");
         break;
 
     default:
-        include("php/view/404.php");
+        include("server/view/404.php");
 }
-include("php/view/footer.php");
+include("server/view/footer.php");
 ?>
 </div>
 </body>

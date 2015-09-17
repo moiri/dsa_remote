@@ -1,0 +1,13 @@
+# lol_team default apache configuration
+# change ___path___ to the location of the project
+
+Alias /dsa_remote ___path___
+
+<Directory "___path___">
+    Options MultiViews
+    Require all granted
+</Directory>
+
+<Directory "___path___/server">
+    Require all denied
+</Directory>

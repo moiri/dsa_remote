@@ -3,7 +3,7 @@ $(document).ready(function() {
 
     // $.getJSON('php/get_hero.php', username, function(json) { });
 
-    $('.heroInput').click(function () {
+    $('[id|="held-login"]').click(function () {
         socket = io.connect('http://localhost:3000');
         username = $(this).text();
         // If the username is valid

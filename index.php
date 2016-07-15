@@ -18,7 +18,7 @@ $registration = new Registration();
 <meta name="DC.language" content="en" />
 <link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap-theme.min.css" />
-<link rel="stylesheet" type="text/css" href="chat/chat.css" />
+<link rel="stylesheet" type="text/css" href="css/chat.css" />
 <script src="plugin/jquery/jquery.js" type="text/javascript"></script>
 <script src="plugin/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/portal.js" type="text/javascript"></script>
@@ -33,6 +33,10 @@ $mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
 switch ($mypage) {
     case '0':
         include("server/view/home.php");
+        break;
+
+    case '4':
+        include("server/view/doc/index.php");
         break;
 
     case '3':

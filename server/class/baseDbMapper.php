@@ -29,7 +29,7 @@ class BaseDBMapper {
         $this->password = $password;
         $this->names = $names;
         $this->handle = @mysql_connect( $this->server, $this->login, $this->password)
-        or die ("Error: Connection to MySQL-database failed!");
+            or die ("Error: Connection to MySQL-database failed!");
         $this->result = mysql_select_db($this->database,$this->handle);
         mysql_query("SET NAMES '".$this->names."';");
     }
@@ -45,13 +45,13 @@ class BaseDBMapper {
     function selectByFk($table, $fk, $id) {
         $retValue = false;
         $sql = sprintf("SELECT * FROM %s WHERE %s='%d';",
-                mysql_real_escape_string($table),
-                mysql_real_escape_string($fk),
-                mysql_real_escape_string($id));
+            mysql_real_escape_string($table),
+            mysql_real_escape_string($fk),
+            mysql_real_escape_string($id));
         if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
         else $errorQuery = "Error: Invalid mySQL query!";
         $result = mysql_query($sql, $this->handle)
-        or die ($errorQuery);
+            or die ($errorQuery);
 
         $num_rows = mysql_num_rows($result);
         if($num_rows >= 1) {
@@ -77,12 +77,12 @@ class BaseDBMapper {
     function selectByUid($table, $id) {
         $retValue = false;
         $sql = sprintf("SELECT * FROM %s WHERE id='%d';",
-                mysql_real_escape_string($table),
-                mysql_real_escape_string($id));
+            mysql_real_escape_string($table),
+            mysql_real_escape_string($id));
         if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
         else $errorQuery = "Error: Invalid mySQL query!";
         $result = mysql_query($sql, $this->handle)
-        or die ($errorQuery);
+            or die ($errorQuery);
 
         $num_rows = mysql_num_rows($result);
         if($num_rows > 1) {
@@ -105,7 +105,7 @@ class BaseDBMapper {
      *
      * @param string $table:    the name of the db table
      * @param int $id:          the unique id of the row to be selected
-     * @return an array with all row entries or false if no entry was selected
+     * @return an array with all entries of the row or false if no entry was selected
      */
     function selectByUidJoin($table, $id) {
         $mainTable = $this->selectByUid($table, $id);
@@ -117,21 +117,24 @@ class BaseDBMapper {
                 $sql .= "t0.".$i.", ";
                 if(substr($i, 0, 3) == "id_") {
                     $tableNb++;
-                    $tableName = substr($i, 3);
+                    $arr = explode('_', $i);
+                    $tableName = $arr[1];
+                    $nameSuffix = "";
+                    if ($arr[2] != NULL) $nameSuffix = "_".$arr[2];
                     $join .= " LEFT JOIN ".rtrim($tableName, "0..9")." t".$tableNb." ON t0.".$i." = t".$tableNb.".id";
-                    $sql .= "t".$tableNb.".name name_".$tableName.", ";
+                    $sql .= "t".$tableNb.".name name_".$tableName.$nameSuffix.", ";
                 }
             }
             $sql = rtrim($sql, ", ");
             $sql .= sprintf(" FROM %s t0%s WHERE t0.id='%d';",
-                    mysql_real_escape_string($table),
-                    $join,
-                    mysql_real_escape_string($id));
+                mysql_real_escape_string($table),
+                $join,
+                mysql_real_escape_string($id));
 
             if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
             else $errorQuery = "Error: Invalid mySQL query!";
             $result = mysql_query($sql, $this->handle)
-            or die ($errorQuery);
+                or die ($errorQuery);
 
             $num_rows = mysql_num_rows($result);
             if($num_rows > 1) {
@@ -165,7 +168,7 @@ class BaseDBMapper {
         if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
         else $errorQuery = "Error: Invalid mySQL query!";
         $result = mysql_query($sql, $this->handle)
-        or die ($errorQuery);
+            or die ($errorQuery);
 
         $num_rows = mysql_num_rows($result);
         $retValue = array();
@@ -209,12 +212,12 @@ class BaseDBMapper {
         $valueStr .= ")";
         $insertStr = $columnStr." ".$valueStr;
         $sql = sprintf("INSERT INTO %s%s;",
-                mysql_real_escape_string($table),
-                $insertStr);
+            mysql_real_escape_string($table),
+            $insertStr);
         if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
         else $errorQuery = "Error: Invalid mySQL query!";
         mysql_query($sql, $this->handle)
-        or die ($errorQuery);
+            or die ($errorQuery);
 
 
         return mysql_insert_id();
@@ -235,13 +238,13 @@ class BaseDBMapper {
         }
         $insertStr = rtrim($insertStr, ", ");
         $sql = sprintf("UPDATE %s SET %s WHERE id='%d';",
-                mysql_real_escape_string($table),
-                $insertStr,
-                mysql_real_escape_string($id));
+            mysql_real_escape_string($table),
+            $insertStr,
+            mysql_real_escape_string($id));
         if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
         else $errorQuery = "Error: Invalid mySQL query!";
         mysql_query($sql, $this->handle)
-        or die ($errorQuery);
+            or die ($errorQuery);
 
         return true;
     }

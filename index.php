@@ -4,6 +4,7 @@ require_once("server/class/login.php");
 require_once("server/class/registration.php");
 $login = new Login();
 $registration = new Registration();
+$mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
 ?>
 
 <!DOCTYPE html>
@@ -21,15 +22,23 @@ $registration = new Registration();
 <link rel="stylesheet" type="text/css" href="css/chat.css" />
 <script src="plugin/jquery/jquery.js" type="text/javascript"></script>
 <script src="plugin/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="js/portal.js" type="text/javascript"></script>
-<script src="js/socket.io.js" type="text/javascript"></script>
-<script src="js/chat.js" type="text/javascript"></script>
+<?php
+switch ($mypage) {
+    case '3':
+        include("server/head/portal.php");
+        break;
+    case '4':
+        include("server/head/doc.php");
+        break;
+    default:
+        ;
+}
+?>
 </head>
 <body>
 <div class="container-fluid">
 <?php
 include("server/view/header.php");
-$mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
 switch ($mypage) {
     case '0':
         include("server/view/home.php");

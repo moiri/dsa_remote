@@ -9,7 +9,7 @@
             <img src="img/doc_tmb.jpg" alt="Kampfregeln">
             <div class="caption">
                 <h3>Kampfregeln - kurz skizziert</h3>
-                <p>Alternative kampfregeln, inspiriert durch QVAT aus längst
+                <p>Alternative Kampfregeln, inspiriert durch QVAT aus längst
                 vergangen DSA 3.0 Zeiten.</p>
             </div>
             </a>

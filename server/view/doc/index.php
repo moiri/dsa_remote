@@ -69,7 +69,7 @@
                         <li><a href="#" id="toc-reaktion-meisterparade">Meisterparade</a></li>
                         <li><a href="#" id="toc-reaktion-unterlaufen">Unterlaufen</a></li>
                         <li><a href="#" id="toc-reaktion-waffe_zerbrechen">Waffe zerbrechen</a></li>
-                        <li><a href="#" id="toc-reaktion-windmuehle">Windmuehle</a></li>
+                        <li><a href="#" id="toc-reaktion-windmuehle">Windmühle</a></li>
                     </ul>
                 </div>
                 <div class="btn-group" role="group">

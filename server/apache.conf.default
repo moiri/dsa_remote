@@ -5,6 +5,7 @@ Alias /dsa_remote ___path___
 
 <Directory "___path___">
     Options MultiViews
+    Options FollowSymLinks
     Require all granted
 </Directory>
 

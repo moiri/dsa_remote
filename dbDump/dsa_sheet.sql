@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 17, 2016 at 02:11 PM
+-- Generation Time: Jul 17, 2016 at 06:49 PM
 -- Server version: 5.6.30-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `basis` (
   `wert_def` varchar(20) COLLATE utf8_bin NOT NULL,
   `wert_def_alt` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `max_kauf_def` varchar(10) COLLATE utf8_bin DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `basis`
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `held_basis` (
   `modifikator` int(2) DEFAULT NULL,
   `kauf` int(2) DEFAULT NULL,
   `kauf_max` int(2) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `held_basis`
@@ -388,6 +388,126 @@ INSERT INTO `ls` (`id`, `name`, `AF`, `number`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `merkmal`
+--
+
+CREATE TABLE IF NOT EXISTS `merkmal` (
+  `id` int(11) unsigned zerofill NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `stufe` int(1) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `merkmal`
+--
+
+INSERT INTO `merkmal` (`id`, `name`, `stufe`) VALUES
+(00000000001, 'Antimagie', 2),
+(00000000002, 'Beschwörung', 2),
+(00000000003, 'Dämonisch', 3),
+(00000000004, 'Dämonisch (Agrimoth / Widharcal)', 1),
+(00000000005, 'Dämonisch (Amazeroth / Iribaar)', 1),
+(00000000006, 'Dämonisch (Asfaloth / Calijnaar)', 1),
+(00000000007, 'Dämonisch (Belhalhar / Xarfai)', 1),
+(00000000008, 'Dämonisch (Blakharaz / Tyakra''man)', 1),
+(00000000009, 'Dämonisch (Lolgramoth / Thezzaphai)', 1),
+(00000000010, 'Dämonisch (Belzhorash / Mishkara)', 1),
+(00000000011, 'Dämonisch (Thargunitoth / Tijakool)', 1),
+(00000000012, 'Eigenschaften', 2),
+(00000000013, 'Einfluss', 2),
+(00000000014, 'Elementar', 3),
+(00000000015, 'Elementar (Eis)', 1),
+(00000000016, 'Elementar (Erz)', 1),
+(00000000017, 'Elementar (Feuer)', 1),
+(00000000018, 'Elementar (Humus)', 1),
+(00000000019, 'Elementar (Luft)', 1),
+(00000000020, 'Elementar (Wasser)', 1),
+(00000000021, 'Form', 2),
+(00000000022, 'Geisterwesen', 1),
+(00000000023, 'Heilung', 1),
+(00000000024, 'Hellsicht', 2),
+(00000000025, 'Herbeirufung', 1),
+(00000000026, 'Herrschaft', 2),
+(00000000027, 'Illusion', 1),
+(00000000028, 'Kraft', 2),
+(00000000029, 'Limbus', 3),
+(00000000030, 'Metamagie', 3),
+(00000000031, 'Objekt', 2),
+(00000000032, 'Schaden', 1),
+(00000000033, 'Telekinese', 1),
+(00000000034, 'Temporal', 3),
+(00000000035, 'Umwelt', 2),
+(00000000036, 'Verständigung', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `spomo`
+--
+
+CREATE TABLE IF NOT EXISTS `spomo` (
+  `id` int(11) unsigned zerofill NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `kosten` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `mod` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `zauberdauer` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `beschreibung` mediumtext CHARACTER SET utf8,
+  `id_spomoKurz` int(11) unsigned zerofill NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `spomo`
+--
+
+INSERT INTO `spomo` (`id`, `name`, `kosten`, `mod`, `zauberdauer`, `beschreibung`, `id_spomoKurz`) VALUES
+(00000000001, 'Veränderte Technik', '7 ZfP / Komponente', '0', '+3 Aktionen', '', 00000000001),
+(00000000002, 'Veränderte Technik, zentral', '12 ZfP / Komponente', '0', '+3 Aktionen', '', 00000000001),
+(00000000003, 'Halbierte Zauberdauer', '5 ZfP / Halbierung', '0', '-50%', NULL, 00000000002),
+(00000000004, 'Verdoppelte Zauberdauer', '0', '-3', '+100%', NULL, 00000000002),
+(00000000005, 'Erzwingen', '0', 'je -1 pro 1/2/4/8 ... AsP', '+1 Aktion / Erleichterung', NULL, 00000000003),
+(00000000006, 'Kosten einsparen', '3 ZfP / -10% AsP', '-', '+1 Aktion / -10% AsP', NULL, 00000000004),
+(00000000007, 'Unfreiwillig statt freiwilliges Zielobjekt', '5 ZfP', '+MR', '+1 Aktion', NULL, 00000000006),
+(00000000008, 'Freiwillig statt unfreiwillig', '2 ZfP', '- 50% MR', '+1 Aktion', NULL, 00000000007),
+(00000000009, 'Mehrere Gefährten verzaubern (freiwillig)', '3 ZfP', '+1 / Person', '+1 Aktion', NULL, 00000000008),
+(00000000010, 'Mehrere Gegner verzaubern (unfreiwillig)', '0', '+MR_MAX + Anzahl', '+1 Aktion', NULL, 00000000008),
+(00000000011, 'Vergrösserung von Reichweite oder Wirkungsradius', '5 ZfP / Stufe', '0', '+1 Aktion / Stufe', NULL, 00000000009),
+(00000000012, 'Verkleinerung von Reichweite oder Wirkungsradius', '3 ZfP / Stufe', '0', '+1 Aktion / Stufe', NULL, 00000000009),
+(00000000013, 'Verdoppelung der Wirkungsdauer', '7 ZfP / Verdoppelung', '0', '+1 Aktion / Verdoppelung', NULL, 00000000010),
+(00000000014, 'Halbierung der Wirkungsdauer', '3 ZfP / Halbierung', '0', '+1 Aktion / Halbierung', NULL, 00000000010),
+(00000000015, 'Änderung von Aufrechterhalten auf feste Dauer', '7 ZfP', '0', '+1 Aktion', NULL, 00000000010);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `spomoKurz`
+--
+
+CREATE TABLE IF NOT EXISTS `spomoKurz` (
+  `id` int(11) unsigned zerofill NOT NULL,
+  `name` varchar(30) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `spomoKurz`
+--
+
+INSERT INTO `spomoKurz` (`id`, `name`) VALUES
+(00000000001, 'Technik'),
+(00000000002, 'Zauberdauer'),
+(00000000003, 'Erzwingen'),
+(00000000004, 'Kosten'),
+(00000000005, 'Zielobjekt'),
+(00000000006, 'Zielobjekt (freiwillig)'),
+(00000000007, 'Zielobjekt (unfreiwillig)'),
+(00000000008, 'Zielobjekt (mehrere)'),
+(00000000009, 'Reichweite'),
+(00000000010, 'Wirkungsdauer'),
+(00000000011, 'Reichweite (Berührung)'),
+(00000000012, 'Reichweite (selbst)');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `talent`
 --
 
@@ -520,10 +640,10 @@ INSERT INTO `talent_waffe` (`id`, `id_talent`, `id_waffe`) VALUES
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) unsigned zerofill NOT NULL COMMENT 'auto incrementing user_id of each user, unique index',
-  `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
-  `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s password in salted and hashed format',
-  `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s email, unique'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
+  `user_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
+  `user_password_hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s password in salted and hashed format',
+  `user_email` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s email, unique'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='user data';
 
 --
 -- Dumping data for table `user`
@@ -535,6 +655,21 @@ INSERT INTO `user` (`id`, `user_name`, `user_password_hash`, `user_email`) VALUE
 (00000000003, 'hhj', '$2y$10$CGikRLTStZ7sXJuVY28UpuyoRNvVxL9pdNqL415OERBkp8YdcXAdK', 'hjd@assdas.com'),
 (00000000004, 'fsdfs', '$2y$10$cet6Sm6.xMGYoIfCZMubsuHod4X4aZG3OxBU3/g694lmRUK4PLkAq', 'asda@ads.com'),
 (00000000005, 'hanuele', '$2y$10$y/TQfUcPOOFQzvkICAUagOv0zIHfkF4bHW6LYfzM1JT7j3wm3Nkqm', 'sad@dal.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `variante`
+--
+
+CREATE TABLE IF NOT EXISTS `variante` (
+  `id` int(11) unsigned zerofill NOT NULL,
+  `name` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `mod` int(2) NOT NULL,
+  `voraussetzung` int(2) NOT NULL,
+  `beschreibung` mediumtext CHARACTER SET utf8 NOT NULL,
+  `id_zauber` int(11) unsigned zerofill NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -561,6 +696,122 @@ INSERT INTO `waffe` (`id`, `name`, `TP`, `TP_KK`, `BF`, `INI`, `WM`, `DK`) VALUE
 (00000000001, 'Knüppel', '1W6+1', '11/4', 6, 0, '0/-2', 'N'),
 (00000000002, 'Schwert', '1W6+4', '11/4', 1, 0, '0/0', 'N'),
 (00000000003, 'Kurzschwert', '1W6+2', '11/4', 0, 1, '0/-1', 'HN');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `zauber`
+--
+
+CREATE TABLE IF NOT EXISTS `zauber` (
+  `id` int(11) unsigned zerofill NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `nameLatein` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `id_eigenschaft1` int(11) unsigned zerofill NOT NULL,
+  `id_eigenschaft2` int(11) unsigned zerofill NOT NULL,
+  `id_eigenschaft3` int(11) unsigned zerofill NOT NULL,
+  `mr` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Modifikation der Probe durch die Magieresistenz?',
+  `mod` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Weitere Modifikation der Probe?',
+  `technik` tinytext CHARACTER SET utf8,
+  `zauberdauer` varchar(150) CHARACTER SET utf8 NOT NULL,
+  `wirkung` mediumtext CHARACTER SET utf8,
+  `kosten` varchar(150) CHARACTER SET utf8 NOT NULL,
+  `reichweite` varchar(150) CHARACTER SET utf8 NOT NULL,
+  `wirkungsdauer` varchar(150) CHARACTER SET utf8 NOT NULL,
+  `a` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Muss der Zauber aufrecht erhalten werden?',
+  `reversalis` tinytext CHARACTER SET utf8,
+  `antimagie` tinytext CHARACTER SET utf8,
+  `komplexitaet` varchar(1) CHARACTER SET utf8 NOT NULL,
+  `verbreitung` mediumtext CHARACTER SET utf8
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `zauber`
+--
+
+INSERT INTO `zauber` (`id`, `name`, `nameLatein`, `id_eigenschaft1`, `id_eigenschaft2`, `id_eigenschaft3`, `mr`, `mod`, `technik`, `zauberdauer`, `wirkung`, `kosten`, `reichweite`, `wirkungsdauer`, `a`, `reversalis`, `antimagie`, `komplexitaet`, `verbreitung`) VALUES
+(00000000001, 'Pentagramma Sphärenbann', NULL, 00000000001, 00000000001, 00000000004, 0, 1, NULL, '20 Aktionen', NULL, '7 AsP pro Geist, 11 AsP pro Niederem Dämon, 17 AsP pro Gehörntem Dämon, 35 pro Erzdämon', '7 Schritt Radius um das Pentagramm', 'augenblicklich', 0, NULL, NULL, 'D', NULL),
+(00000000002, 'Abvenenum reine Speise', NULL, 00000000003, 00000000003, 00000000005, 0, 1, NULL, 'mindestens 15 Aktionen', NULL, '4 AsP pro Mahlzeit, die für etwa 10 Personen reicht (Sch: 3 AsP)', '1 Schritt', 'augenblicklich', 0, NULL, NULL, 'C', NULL),
+(00000000003, 'Analy Arcanstuktur', NULL, 00000000003, 00000000003, 00000000002, 0, 1, NULL, 'mindestens 1 Spielrunde', NULL, '6 AsP + 3 AsP für jede angefangene halbe Stunde, die die Analyse dauert', '1 Schritt', 'identisch mit Zauberdauer, nach AsP-Aufwand. Während der Wirkungs-/Zauberdauer kann der Magier keine anderen Aktionen unternehmen', 0, NULL, NULL, 'D', NULL),
+(00000000004, 'Ängste lindern', NULL, 00000000001, 00000000002, 00000000004, 0, 0, NULL, '20 Aktionen', NULL, '5 AsP', 'Berührung', 'augenblicklich, die motivierende Kraft des Zaubers hält so lange an, wie die direkt auf den Zauber folgende Aktion dauert', 0, NULL, NULL, 'C', NULL),
+(00000000005, 'Applicatus Zauberspeicher', NULL, 00000000003, 00000000005, 00000000005, 0, 0, NULL, '40 Aktionen', NULL, '2W6 AsP (+ Kosten des Wirkenden Spruches)', 'Berührung', 'längstens bis zum nächsten Sonnenaufgang, dann bauen sich die Muster des APPLICATUS ab und der fixierte Zauberspruch wird automatisch ausgelöst', 0, NULL, NULL, 'C', NULL),
+(00000000006, 'Arcanovi Artefakt', NULL, 00000000003, 00000000003, 00000000005, 0, 0, NULL, 'ein bis mehrere Stunden', NULL, '10 AsP (+ Kosten der Wirkenden Sprüche). Jedes Artefakt erfordert zudem den Aufwand von permanenten AsP zur Schaffung einer dauerhaften Matrix', 'Berührung', 'variabel; je nach Art des Artefakts bleibt der ARCANOVI mindestens bis zur Auslösung der Wirkenden Sprüche intakt', 0, NULL, NULL, 'E', NULL),
+(00000000007, 'Armatrutz', NULL, 00000000002, 00000000006, 00000000007, 0, 0, NULL, '3 Aktionen', NULL, 'zusätzlicher RS mal zusätzlicher RS minus ZfP*/2 in AsP, mindestens aber 4 AsP', 'selbst', 'maximal eine Spielrunde', 1, NULL, NULL, 'B', NULL),
+(00000000008, 'Attributo', NULL, 00000000003, 00000000004, 00000000009, 0, 0, NULL, '30 Aktionen', NULL, '7 AsP (Sch: 5 AsP)', 'Berührung', '1 Stunde', 0, NULL, NULL, 'B', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `zauber_merkmal`
+--
+
+CREATE TABLE IF NOT EXISTS `zauber_merkmal` (
+  `id` int(11) unsigned zerofill NOT NULL,
+  `id_zauber` int(11) unsigned zerofill NOT NULL,
+  `id_merkmal` int(11) unsigned zerofill NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `zauber_merkmal`
+--
+
+INSERT INTO `zauber_merkmal` (`id`, `id_zauber`, `id_merkmal`) VALUES
+(00000000001, 00000000001, 00000000001),
+(00000000002, 00000000001, 00000000002),
+(00000000003, 00000000001, 00000000003),
+(00000000004, 00000000001, 00000000001),
+(00000000005, 00000000002, 00000000031),
+(00000000006, 00000000003, 00000000024),
+(00000000007, 00000000003, 00000000030),
+(00000000008, 00000000004, 00000000013),
+(00000000009, 00000000005, 00000000031),
+(00000000010, 00000000005, 00000000030),
+(00000000011, 00000000006, 00000000031),
+(00000000012, 00000000006, 00000000030),
+(00000000013, 00000000007, 00000000012),
+(00000000014, 00000000007, 00000000016),
+(00000000015, 00000000008, 00000000012);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `zauber_spomoKurz`
+--
+
+CREATE TABLE IF NOT EXISTS `zauber_spomoKurz` (
+  `id` int(11) unsigned zerofill NOT NULL,
+  `id_zauber` int(11) unsigned zerofill NOT NULL,
+  `id_spomoKurz` int(11) unsigned zerofill NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `zauber_spomoKurz`
+--
+
+INSERT INTO `zauber_spomoKurz` (`id`, `id_zauber`, `id_spomoKurz`) VALUES
+(00000000001, 00000000001, 00000000002),
+(00000000002, 00000000001, 00000000008),
+(00000000003, 00000000001, 00000000003),
+(00000000004, 00000000001, 00000000009),
+(00000000005, 00000000002, 00000000002),
+(00000000006, 00000000002, 00000000009),
+(00000000007, 00000000003, 00000000002),
+(00000000008, 00000000003, 00000000004),
+(00000000009, 00000000003, 00000000009),
+(00000000010, 00000000004, 00000000002),
+(00000000011, 00000000004, 00000000003),
+(00000000012, 00000000004, 00000000004),
+(00000000013, 00000000004, 00000000009),
+(00000000014, 00000000005, 00000000002),
+(00000000015, 00000000005, 00000000004),
+(00000000016, 00000000005, 00000000010),
+(00000000017, 00000000007, 00000000002),
+(00000000018, 00000000007, 00000000004),
+(00000000019, 00000000007, 00000000011),
+(00000000020, 00000000007, 00000000010),
+(00000000021, 00000000008, 00000000002),
+(00000000022, 00000000008, 00000000010),
+(00000000023, 00000000008, 00000000012);
 
 --
 -- Indexes for dumped tables
@@ -667,6 +918,25 @@ ALTER TABLE `ls`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `merkmal`
+--
+ALTER TABLE `merkmal`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `spomo`
+--
+ALTER TABLE `spomo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kategorie` (`id_spomoKurz`);
+
+--
+-- Indexes for table `spomoKurz`
+--
+ALTER TABLE `spomoKurz`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `talent`
 --
 ALTER TABLE `talent`
@@ -701,10 +971,42 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `user_email` (`user_email`);
 
 --
+-- Indexes for table `variante`
+--
+ALTER TABLE `variante`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_zauber` (`id_zauber`);
+
+--
 -- Indexes for table `waffe`
 --
 ALTER TABLE `waffe`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `zauber`
+--
+ALTER TABLE `zauber`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `probe` (`id_eigenschaft1`,`id_eigenschaft2`,`id_eigenschaft3`),
+  ADD KEY `zauber_ibfk_2` (`id_eigenschaft2`),
+  ADD KEY `zauber_ibfk_3` (`id_eigenschaft3`);
+
+--
+-- Indexes for table `zauber_merkmal`
+--
+ALTER TABLE `zauber_merkmal`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_zauber` (`id_zauber`),
+  ADD KEY `id_merkmale` (`id_merkmal`);
+
+--
+-- Indexes for table `zauber_spomoKurz`
+--
+ALTER TABLE `zauber_spomoKurz`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_zauber` (`id_zauber`),
+  ADD KEY `id_spomoKurz` (`id_spomoKurz`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -714,7 +1016,7 @@ ALTER TABLE `waffe`
 -- AUTO_INCREMENT for table `basis`
 --
 ALTER TABLE `basis`
-  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `eigenschaft`
 --
@@ -734,7 +1036,7 @@ ALTER TABLE `held`
 -- AUTO_INCREMENT for table `held_basis`
 --
 ALTER TABLE `held_basis`
-  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `held_eigenschaft`
 --
@@ -781,6 +1083,21 @@ ALTER TABLE `kampf`
 ALTER TABLE `ls`
   MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
+-- AUTO_INCREMENT for table `merkmal`
+--
+ALTER TABLE `merkmal`
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT for table `spomo`
+--
+ALTER TABLE `spomo`
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `spomoKurz`
+--
+ALTER TABLE `spomoKurz`
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
 -- AUTO_INCREMENT for table `talent`
 --
 ALTER TABLE `talent`
@@ -801,10 +1118,30 @@ ALTER TABLE `talent_waffe`
 ALTER TABLE `user`
   MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT for table `variante`
+--
+ALTER TABLE `variante`
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `waffe`
 --
 ALTER TABLE `waffe`
   MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `zauber`
+--
+ALTER TABLE `zauber`
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `zauber_merkmal`
+--
+ALTER TABLE `zauber_merkmal`
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `zauber_spomoKurz`
+--
+ALTER TABLE `zauber_spomoKurz`
+  MODIFY `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- Constraints for dumped tables
 --
@@ -843,6 +1180,13 @@ ALTER TABLE `held_gruppe`
   ADD CONSTRAINT `held_gruppe_ibfk_2` FOREIGN KEY (`id_held`) REFERENCES `held` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
+-- Constraints for table `held_kampf`
+--
+ALTER TABLE `held_kampf`
+  ADD CONSTRAINT `held_kampf_ibfk_1` FOREIGN KEY (`id_held`) REFERENCES `held` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `held_kampf_ibfk_2` FOREIGN KEY (`id_kampf`) REFERENCES `kampf` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
 -- Constraints for table `held_nachteil`
 --
 ALTER TABLE `held_nachteil`
@@ -869,6 +1213,12 @@ ALTER TABLE `held_waffe`
   ADD CONSTRAINT `held_waffe_ibfk_2` FOREIGN KEY (`waffe_id`) REFERENCES `waffe` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
+-- Constraints for table `spomo`
+--
+ALTER TABLE `spomo`
+  ADD CONSTRAINT `spomo_ibfk_1` FOREIGN KEY (`id_spomoKurz`) REFERENCES `spomoKurz` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
 -- Constraints for table `talent`
 --
 ALTER TABLE `talent`
@@ -884,6 +1234,34 @@ ALTER TABLE `talent`
 ALTER TABLE `talent_waffe`
   ADD CONSTRAINT `talent_waffe_ibfk_1` FOREIGN KEY (`id_talent`) REFERENCES `talent` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `talent_waffe_ibfk_2` FOREIGN KEY (`id_waffe`) REFERENCES `waffe` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `variante`
+--
+ALTER TABLE `variante`
+  ADD CONSTRAINT `variante_ibfk_1` FOREIGN KEY (`id_zauber`) REFERENCES `zauber` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `zauber`
+--
+ALTER TABLE `zauber`
+  ADD CONSTRAINT `zauber_ibfk_1` FOREIGN KEY (`id_eigenschaft1`) REFERENCES `eigenschaft` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `zauber_ibfk_2` FOREIGN KEY (`id_eigenschaft2`) REFERENCES `eigenschaft` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `zauber_ibfk_3` FOREIGN KEY (`id_eigenschaft3`) REFERENCES `eigenschaft` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `zauber_merkmal`
+--
+ALTER TABLE `zauber_merkmal`
+  ADD CONSTRAINT `zauber_merkmal_ibfk_1` FOREIGN KEY (`id_zauber`) REFERENCES `zauber` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `zauber_merkmal_ibfk_2` FOREIGN KEY (`id_merkmal`) REFERENCES `merkmal` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `zauber_spomoKurz`
+--
+ALTER TABLE `zauber_spomoKurz`
+  ADD CONSTRAINT `zauber_spomoKurz_ibfk_1` FOREIGN KEY (`id_zauber`) REFERENCES `zauber` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `zauber_spomoKurz_ibfk_2` FOREIGN KEY (`id_spomoKurz`) REFERENCES `spomoKurz` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

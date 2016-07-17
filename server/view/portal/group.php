@@ -2,7 +2,7 @@
     require_once('server/class/sheetDbMapper.php');
     require_once('server/secure/globals.php');
     $sheet = new SheetDbMapper(DBSERVER,DBNAME,DBUSER,DBPASSWORD);
-    $res = $sheet->getGroupsGyUserId($_SESSION['user_id']);
+    $res = $sheet->getGroupsByUserId($_SESSION['user_id']);
 ?>
 <div class="row loginPage">
 <div class="container">

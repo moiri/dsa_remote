@@ -28,7 +28,7 @@ class SheetDbMapper extends BaseDbMapper {
      * @param int $id:          the foreign key of the row to be selected
      * @return an array with all row entries or false if no entry was selected
      */
-    function getGroupsGyUserId($id) {
+    function getGroupsByUserId($id) {
         $retValue = false;
         $sql = sprintf("SELECT g.id, g.name AS gn, g.description,
             h.id AS hi, h.chatname AS hn FROM gruppe AS g
@@ -36,6 +36,100 @@ class SheetDbMapper extends BaseDbMapper {
             LEFT JOIN held AS h ON hg.id_held = h.id
             WHERE h.id_user = %d;",
                 mysql_real_escape_string($id));
+        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
+        else $errorQuery = "Error: Invalid mySQL query!";
+        $result = mysql_query($sql, $this->handle)
+        or die ($errorQuery);
+
+        $num_rows = mysql_num_rows($result);
+        if($num_rows >= 1) {
+            $retValue = array();
+            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                array_push($retValue, $row);
+            }
+        }
+        else {
+            // no entry
+            $retValue = false;
+        }
+        return $retValue;
+    }
+
+    /**
+     * Get all heroes by user id.
+     *
+     * @param int $id:          user id
+     * @return an array with all row entries or false if no entry was selected
+     */
+    function getHeroesByUserId($id) {
+        $retValue = false;
+        $sql = sprintf("SELECT * FROM held WHERE id_user = %d;",
+                mysql_real_escape_string($id));
+        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
+        else $errorQuery = "Error: Invalid mySQL query!";
+        $result = mysql_query($sql, $this->handle)
+        or die ($errorQuery);
+
+        $num_rows = mysql_num_rows($result);
+        if($num_rows >= 1) {
+            $retValue = array();
+            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                array_push($retValue, $row);
+            }
+        }
+        else {
+            // no entry
+            $retValue = false;
+        }
+        return $retValue;
+    }
+
+    /**
+     * Get hero attributes
+     *
+     * @param int $id:          hero id
+     * @return an array with all row entries or false if no entry was selected
+     */
+    function getAttrByHeroId($id) {
+        $retValue = false;
+        $sql = sprintf("SELECT e.id, e.name, he.wert, he.start, he.modifikator
+             FROM eigenschaft AS e
+             LEFT JOIN held_eigenschaft AS he ON e.id = he.id_eigenschaft
+             AND he.id_held = %d;",
+             mysql_real_escape_string($id));
+        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
+        else $errorQuery = "Error: Invalid mySQL query!";
+        $result = mysql_query($sql, $this->handle)
+        or die ($errorQuery);
+
+        $num_rows = mysql_num_rows($result);
+        if($num_rows >= 1) {
+            $retValue = array();
+            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                array_push($retValue, $row);
+            }
+        }
+        else {
+            // no entry
+            $retValue = false;
+        }
+        return $retValue;
+    }
+
+    /**
+     * Get hero basic values
+     *
+     * @param int $id:          hero id
+     * @return an array with all row entries or false if no entry was selected
+     */
+    function getBaseByHeroId($id) {
+        $retValue = false;
+        $sql = sprintf("SELECT b.id, b.name, b.wert_def, b.max_kauf_def,
+            hb.wert, hb.start, hb.modifikator, hb.kauf, hb.kauf_max
+            FROM basis AS b
+            LEFT JOIN held_basis AS hb ON b.id = hb.id_basis
+            AND hb.id_held = %d;",
+            mysql_real_escape_string($id));
         if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
         else $errorQuery = "Error: Invalid mySQL query!";
         $result = mysql_query($sql, $this->handle)

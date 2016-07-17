@@ -43,16 +43,20 @@ switch ($mypage) {
     case '0':
         include("server/view/home.php");
         break;
-
-    case '4':
-        include("server/view/doc/index.php");
+    case '2':
+        if($login->isUserLoggedIn())
+            include("server/view/sheet/index.php");
+        else
+            include("server/view/denied.php");
         break;
-
     case '3':
         if($login->isUserLoggedIn())
             include("server/view/portal/index.php");
         else
             include("server/view/denied.php");
+        break;
+    case '4':
+        include("server/view/doc/index.php");
         break;
 
     default:

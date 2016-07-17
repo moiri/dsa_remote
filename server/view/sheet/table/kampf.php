@@ -3,6 +3,7 @@
         <tr>
             <th style="visibility:hidden">Kampf Grundwert</th>
             <th class="small"></th>
+            <th class="small">Aktuell</th>
         </tr>
     </thead>
     <tbody>
@@ -12,7 +13,8 @@
         $sign = ( $attr['modifikator'] > 0 ) ? '+' : '';
         print '
         <tr>
-            <th>'.$attr['name'].'<span class="text-muted small pull-right">'.$attr['wert_def'].'</span></th>
+            <th>'.$attr['name'].'</th>
+            <td class="text-muted small text-right">'.$attr['wert_def'].'</td>
             <td>'.$attr['wert'].'</td>
         </tr>
 ';

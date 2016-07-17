@@ -1,7 +1,7 @@
 <table class="table table-condensed">
     <thead>
         <tr>
-            <th>Basiswert</th>
+            <th style="visibility:hidden">Basiswert</th>
             <th class="small">Aktuell</th>
             <th class="small">Mod</th>
             <th class="small">Start</th>
@@ -13,14 +13,15 @@
 <?php
     $res = $sheet->getBaseByHeroId($_SESSION['hero_id']);
     foreach( $res as $attr ) {
+        $sign = ( $attr['modifikator'] > 0 ) ? '+' : '';
         print '
         <tr>
-            <th>'.$attr['name'].'<span class="small pull-right">'.$attr['wert_def'].'</span></th>
+            <th>'.$attr['name'].'<span class="text-muted small pull-right">'.$attr['wert_def'].'</span></th>
             <td>'.$attr['wert'].'</td>
-            <td>'.$attr['modifikator'].'</td>
+            <td>'.$sign.$attr['modifikator'].'</td>
             <td>'.$attr['start'].'</td>
             <td>'.$attr['kauf'].'</td>
-            <td>'.$attr['kauf_max'].'<span class="small pull-right">'.$attr['max_kauf_def'].'</span></td>
+            <td>'.$attr['kauf_max'].'<span class="text-muted small pull-right">'.$attr['max_kauf_def'].'</span></td>
         </tr>
 ';
     }

@@ -21,11 +21,9 @@ class SheetDbMapper extends BaseDbMapper {
     }
 
     /**
-     * Get a single row of a db table by foreign key
+     * Get a list of groups and their corresponding heroes by user id
      *
-     * @param string $table:    the name of the db table
-     * @param string $fk:       name of the foreign key
-     * @param int $id:          the foreign key of the row to be selected
+     * @param int $id:          user id
      * @return an array with all row entries or false if no entry was selected
      */
     function getGroupsByUserId($id) {
@@ -36,23 +34,7 @@ class SheetDbMapper extends BaseDbMapper {
             LEFT JOIN held AS h ON hg.id_held = h.id
             WHERE h.id_user = %d;",
                 mysql_real_escape_string($id));
-        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
-        else $errorQuery = "Error: Invalid mySQL query!";
-        $result = mysql_query($sql, $this->handle)
-        or die ($errorQuery);
-
-        $num_rows = mysql_num_rows($result);
-        if($num_rows >= 1) {
-            $retValue = array();
-            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                array_push($retValue, $row);
-            }
-        }
-        else {
-            // no entry
-            $retValue = false;
-        }
-        return $retValue;
+        return $this->queryDB($sql);
     }
 
     /**
@@ -65,23 +47,7 @@ class SheetDbMapper extends BaseDbMapper {
         $retValue = false;
         $sql = sprintf("SELECT * FROM held WHERE id_user = %d;",
                 mysql_real_escape_string($id));
-        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
-        else $errorQuery = "Error: Invalid mySQL query!";
-        $result = mysql_query($sql, $this->handle)
-        or die ($errorQuery);
-
-        $num_rows = mysql_num_rows($result);
-        if($num_rows >= 1) {
-            $retValue = array();
-            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                array_push($retValue, $row);
-            }
-        }
-        else {
-            // no entry
-            $retValue = false;
-        }
-        return $retValue;
+        return $this->queryDB($sql);
     }
 
     /**
@@ -97,23 +63,7 @@ class SheetDbMapper extends BaseDbMapper {
              LEFT JOIN held_eigenschaft AS he ON e.id = he.id_eigenschaft
              AND he.id_held = %d;",
              mysql_real_escape_string($id));
-        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
-        else $errorQuery = "Error: Invalid mySQL query!";
-        $result = mysql_query($sql, $this->handle)
-        or die ($errorQuery);
-
-        $num_rows = mysql_num_rows($result);
-        if($num_rows >= 1) {
-            $retValue = array();
-            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                array_push($retValue, $row);
-            }
-        }
-        else {
-            // no entry
-            $retValue = false;
-        }
-        return $retValue;
+        return $this->queryDB($sql);
     }
 
     /**
@@ -130,23 +80,23 @@ class SheetDbMapper extends BaseDbMapper {
             LEFT JOIN held_basis AS hb ON b.id = hb.id_basis
             AND hb.id_held = %d;",
             mysql_real_escape_string($id));
-        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
-        else $errorQuery = "Error: Invalid mySQL query!";
-        $result = mysql_query($sql, $this->handle)
-        or die ($errorQuery);
+        return $this->queryDB($sql);
+    }
 
-        $num_rows = mysql_num_rows($result);
-        if($num_rows >= 1) {
-            $retValue = array();
-            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                array_push($retValue, $row);
-            }
-        }
-        else {
-            // no entry
-            $retValue = false;
-        }
-        return $retValue;
+    /**
+     * Get hero basic combat values
+     *
+     * @param int $id:          hero id
+     * @return an array with all row entries or false if no entry was selected
+     */
+    function getCombatByHeroId($id) {
+        $retValue = false;
+        $sql = sprintf("SELECT k.id, k.name, k.wert_def, hk.wert
+            FROM kampf AS k
+            LEFT JOIN held_kampf AS hk ON k.id = hk.id_kampf
+            AND hk.id_held = %d;",
+            mysql_real_escape_string($id));
+        return $this->queryDB($sql);
     }
 }
 

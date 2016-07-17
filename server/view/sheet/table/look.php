@@ -1,10 +1,16 @@
 <table class="table table-condensed">
+    <thead>
+        <tr>
+            <th style="visibility:hidden">Aussehen</th>
+            <th class="small" style="visibility:hidden">Beschreibung</th>
+        </tr>
+    </thead>
     <tbody>
 <?php
     $res = $sheet->selectByUid( 'held', $_SESSION['hero_id']);
     print '
         <tr>
-            <th>Titel / SO</th>
+            <th>Titel</th>
             <td>'.$res['titel'].'</td>
         </tr>
         <tr>

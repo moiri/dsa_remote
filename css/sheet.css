@@ -1,0 +1,13 @@
+div.table-cfg, div.table-confirm {
+    position: absolute;
+    right: -12px;
+    top: 0px;
+}
+
+div.table-cfg * .glyphicon, div.table-confirm * .glyphicon {
+    padding: 5px;
+}
+
+div.table-panel * .table {
+    margin-bottom: 0px;
+}

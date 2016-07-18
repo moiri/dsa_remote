@@ -11,7 +11,9 @@
     foreach( $res as $nt ) {
     print '
         <tr>
-            <td>'.$nt['nachteil'].'</td>
+            <td>
+                <input type="text" class="form-control input-sm" value="'.$nt['nachteil'].'">
+            </td>
         </tr>
 ';
     }

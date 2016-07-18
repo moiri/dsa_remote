@@ -11,7 +11,9 @@
     foreach( $res as $vt ) {
     print '
         <tr>
-            <td>'.$vt['vorteil'].'</td>
+            <td>
+                <input type="text" class="form-control input-sm" value="'.$vt['vorteil'].'">
+            </td>
         </tr>
 ';
     }

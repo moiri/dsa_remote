@@ -1,4 +1,4 @@
-<table class="table table-condensed">
+<table id="sheet-table-kampf" class="table table-condensed">
     <thead>
         <tr>
             <th style="visibility:hidden">Kampf Grundwert</th>

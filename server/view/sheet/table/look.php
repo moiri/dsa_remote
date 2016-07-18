@@ -1,4 +1,4 @@
-<table class="table table-condensed">
+<table id="sheet-table-look" class="table table-condensed">
     <thead>
         <tr>
             <th style="visibility:hidden">Aussehen</th>
@@ -11,43 +11,43 @@
     print '
         <tr>
             <th>Titel</th>
-            <td>'.$res['titel'].'</td>
+            <td class="field-edit">'.$res['titel'].'</td>
         </tr>
         <tr>
             <th>Rasse</th>
-            <td>'.$res['rasse'].'</td>
+            <td class="field-edit">'.$res['rasse'].'</td>
         </tr>
         <tr>
             <th>Kultur</th>
-            <td>'.$res['kultur'].'</td>
+            <td class="field-edit">'.$res['kultur'].'</td>
         </tr>
         <tr>
             <th>Profession</th>
-            <td>'.$res['profession'].'</td>
+            <td class="field-edit">'.$res['profession'].'</td>
         </tr>
         <tr>
             <th>Geburtsdatum</th>
-            <td>'.$res['geburtsdatum'].'</td>
+            <td class="field-edit">'.$res['geburtsdatum'].'</td>
         </tr>
         <tr>
             <th>Haarfarbe</th>
-            <td>'.$res['haarfarbe'].'</td>
+            <td class="field-edit">'.$res['haarfarbe'].'</td>
         </tr>
         <tr>
             <th>Augenfarbe</th>
-            <td>'.$res['augenfarbe'].'</td>
+            <td class="field-edit">'.$res['augenfarbe'].'</td>
         </tr>
         <tr>
             <th>Grösse</th>
-            <td>'.$res['groesse'].'</td>
+            <td class="field-edit">'.$res['groesse'].'</td>
         </tr>
         <tr>
             <th>Gewicht</th>
-            <td>'.$res['gewicht'].'</td>
+            <td class="field-edit">'.$res['gewicht'].'</td>
         </tr>
         <tr>
             <th>Geschlecht</th>
-            <td>'.$res['geschlecht'].'</td>
+            <td class="field-edit">'.$res['geschlecht'].'</td>
         </tr>
 ';
 ?>

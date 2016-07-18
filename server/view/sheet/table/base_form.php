@@ -19,11 +19,21 @@
         <tr>
             <th>'.$attr['name'].'</th>
             <td class="text-muted small text-right">'.$attr['wert_def'].'</td>
-            <td>'.$attr['wert'].'</td>
-            <td>'.$sign.$attr['modifikator'].'</td>
-            <td>'.$attr['start'].'</td>
-            <td>'.$attr['kauf'].'</td>
-            <td>'.$attr['kauf_max'].'<span class="text-muted small pull-right">'.$attr['max_kauf_def'].'</span></td>
+            <td>
+                '.$attr['wert'].'
+            </td>
+            <td>
+                <input type="number" class="form-control input-sm" value="'.$attr['modifikator'].'">
+            </td>
+            <td>
+                <input type="number" class="form-control input-sm" value="'.$attr['start'].'">
+            </td>
+            <td>
+                <input type="number" class="form-control input-sm" value="'.$attr['kauf'].'">
+            </td>
+            <td>
+                '.$attr['kauf_max'].'
+            <span class="text-muted small pull-right">'.$attr['max_kauf_def'].'</span></td>
         </tr>
 ';
     }

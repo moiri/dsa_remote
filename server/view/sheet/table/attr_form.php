@@ -15,9 +15,15 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td class="field-edit">'.$attr['wert'].'</td>
-            <td class="field-edit">'.$sign.$attr['modifikator'].'</td>
-            <td class="field-edit">'.$attr['start'].'</td>
+            <td class="field-edit">
+                <input type="number" class="form-control input-sm" value="'.$attr['wert'].'">
+            </td>
+            <td class="field-edit">
+                <input type="number" class="form-control input-sm" value="'.$attr['modifikator'].'">
+            </td>
+            <td class="field-edit">
+                <input type="number" class="form-control input-sm" value="'.$attr['start'].'">
+            </td>
         </tr>
 ';
     }

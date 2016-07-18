@@ -15,7 +15,17 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td class="field-edit">'.$attr['wert'].'</td>
+            <td class="field-edit">
+                <div class="btn-group" role="group" aria-label="Left Align">
+                    <button type="button" class="btn btn-default btn-minus btn-xs" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-plus btn-xs" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <span class="field-val">'.$attr['wert'].'</span>
+            </td>
             <td class="field-edit">'.$sign.$attr['modifikator'].'</td>
             <td class="field-edit">'.$attr['start'].'</td>
         </tr>

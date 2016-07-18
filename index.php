@@ -19,11 +19,13 @@ $mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
 <meta name="DC.language" content="en" />
 <link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="plugin/bootstrap/css/bootstrap-theme.min.css" />
-<link rel="stylesheet" type="text/css" href="css/chat.css" />
 <script src="plugin/jquery/jquery.js" type="text/javascript"></script>
 <script src="plugin/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <?php
 switch ($mypage) {
+    case '2':
+        include("server/head/sheet.php");
+        break;
     case '3':
         include("server/head/portal.php");
         break;

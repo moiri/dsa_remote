@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var doc = new Doc( $( '#chap' ), 'app-doc/web/index.json' );
-    doc.config.doc_path = "app-doc/";
+    doc.setDocPath( "app-doc" );
     doc.printDoc( 'chap', 'intro' );
     doc.printToc( $( '#toc-chap' ), 'chap' );
     doc.registerSearch( $( '#query' ) );

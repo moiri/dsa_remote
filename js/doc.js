@@ -1,10 +1,10 @@
-var __PATH = 'app-doc/';
-
 $(document).ready(function() {
-    var id = 'chap';
-    printDoc( 'chap', 'intro', id );
-    $('[id|="toc"]').click( function( e ) {
-        var path = $( this ).attr( 'id' ).split( '-' );
-        printDoc( path[1], path[2], id );
+    var doc = new Doc( $( '#chap' ), 'app-doc/web/index.json' );
+    doc.config.doc_path = "app-doc/";
+    doc.printDoc( 'chap', 'intro' );
+    doc.printToc( $( '#toc-chap' ), 'chap' );
+    doc.registerSearch( $( '#query' ) );
+    $('#toc-chap-intro').click( function( e ) {
+        doc.printDoc( 'chap', 'intro' );
     });
 });

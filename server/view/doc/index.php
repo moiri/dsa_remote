@@ -30,15 +30,15 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SF-Baum<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="tex/fig/bSF.pdf">
+                                <li><a href="app-doc/fig/bSF.pdf">
                                     <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                                     Bewaffnete SFs</a>
                                 </li>
-                                <li><a href="tex/fig/uSF.pdf">
+                                <li><a href="app-doc/fig/uSF.pdf">
                                     <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                                     Unbewaffnete SFs</a>
                                 </li>
-                                <li><a href="tex/fig/fkSF.pdf">
+                                <li><a href="app-doc/fig/fkSF.pdf">
                                     <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                                     Fernkampf SFs</a>
                                 </li>

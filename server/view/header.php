@@ -1,4 +1,7 @@
-<?php $css=' class="active"'; ?>
+<?php
+if(!isset($_GET['page'])) $_GET['page'] = 0;
+$css=' class="active"';
+?>
 
    <div class="row">
       <div class="col-md-12">

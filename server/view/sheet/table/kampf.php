@@ -10,7 +10,6 @@
 <?php
     $res = $sheet->getCombatByHeroId($_SESSION['hero_id']);
     foreach( $res as $attr ) {
-        $sign = ( $attr['modifikator'] > 0 ) ? '+' : '';
         print '
         <tr>
             <th>'.$attr['name'].'</th>

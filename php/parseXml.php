@@ -30,10 +30,33 @@ $eigenschaften = array(
     "Magieresistenz" => array( "basis", 4 )
 );
 
+if( !isset($xml->held['name']) ) die("OOPS");
+
 foreach( $xml->held as $held ) {
     echo "INSERT INTO held (id_user, name) VALUES(".$_SESSION['user_id'].", '"
         .$held['name']."')</br>";
     $hero_id = 329;
+    foreach( $held->basis as $basis ) {
+        $aussehen = $basis->rasse->aussehen;
+        $geburtstag = $aussehen['gbtag'].". ".$aussehen['gbmonat'].". "
+            .$aussehen['gbjahr'];
+        $ausbildung = $basis->ausbildungen[0]->ausbildung['string'];
+        $count = 0;
+        foreach( $basis->ausbildungen->ausbildung as $prof ) {
+            if( $count++ == 0 ) continue;
+            $ausbildung = $ausbildung.", ".$prof['string'];
+        }
+        echo "UPDATE held SET geschlecht='".$basis->geschlecht['name']
+            ."', rasse='".$basis->rasse['string']
+            ."', kultur='".$basis->kultur['string']
+            ."', profession='".$ausbildung
+            ."', geburtsdatum='".$geburtstag
+            ."', haarfarbe='".$aussehen['haarfarbe']
+            ."', augenfarbe='".$aussehen['augenfarbe']
+            ."', groesse='".$basis->rasse->groesse['value']
+            ."', gewicht='".$basis->rasse->groesse['gewicht']
+            ."' WHERE id=".$hero_id."</br>";
+    }
     foreach( $held->vt->vorteil as $vorteil ) {
         $val = $vorteil['name'];
         if( isset( $vorteil['value'] ) ) $val = $val.": ".$vorteil['value'];

@@ -9,7 +9,7 @@ $sheet = new SheetDbMapper(DBSERVER,DBNAME,DBUSER,DBPASSWORD);
 
 $xml = simplexml_load_file( $_FILES['uploadfile']['tmp_name'] );
 
-$eigenschaften = array(
+$db_eigs = array(
     "Mut" => array( "eigenschaft", 1 ),
     "Klugheit" => array( "eigenschaft", 2 ),
     "Charisma" => array( "eigenschaft", 3 ),
@@ -28,6 +28,16 @@ $eigenschaften = array(
     "Astralenergie" => array( "basis", 3 ),
     "Karmaenergie" => array( "basis", 5 ),
     "Magieresistenz" => array( "basis", 4 )
+);
+$db_eig = array(
+    "MU" => 1,
+    "KL" => 2,
+    "CH" => 3,
+    "IN" => 4,
+    "FF" => 5,
+    "GE" => 6,
+    "KK" => 7,
+    "KO" => 8
 );
 
 if( !isset($xml->held['name']) ) die("OOPS");
@@ -70,13 +80,23 @@ foreach( $xml->held as $held ) {
             $start = "start, ";
             $startv = $eigenschaft['startwert'].", ";
         }
-        $table = $eigenschaften[(string)$eigenschaft['name']][0];
+        $table = $db_eigs[(string)$eigenschaft['name']][0];
         $wert = "wert";
         if( $table == "basis" ) $wert = "kauf";
         echo "INSERT INTO held_".$table ." (" .$start.$wert
             .", modifikator, id_held, id_".$table.") VALUES(" .$startv
             .$eigenschaft['value'].", ".$eigenschaft['mod'].", ".$hero_id
-            .", ".$eigenschaften[(string)$eigenschaft['name']][1].")</br>";
+            .", ".$db_eigs[(string)$eigenschaft['name']][1].")</br>";
+    }
+    foreach( $held->talentliste->talent as $talent ) {
+        $eig = trim(
+            str_replace( array( '(', ')' ), '', $talent['probe'] ), " "
+        );
+        $eigA = explode( "/", $eig );
+        echo "INSERT INTO talent (name, id_eigenschaft1, id_eigenschaft2"
+            .", id_eigenschaft3, id_ls, id_talentgruppe) VALUES(\"".$talent['name']."\", "
+            .$db_eig[$eigA[0]].", ".$db_eig[$eigA[1]].", ".$db_eig[$eigA[2]].", 2, 3);</br>";
+
     }
 }
 

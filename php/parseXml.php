@@ -39,6 +39,16 @@ $db_eig = array(
     "KK" => 7,
     "KO" => 8
 );
+$db_ls = array(
+    "A" => 1,
+    "B" => 2,
+    "C" => 3,
+    "D" => 4,
+    "E" => 5,
+    "F" => 6,
+    "G" => 7,
+    "H" => 8
+);
 
 if( !isset($xml->held['name']) ) die("OOPS");
 
@@ -88,14 +98,15 @@ foreach( $xml->held as $held ) {
             .$eigenschaft['value'].", ".$eigenschaft['mod'].", ".$hero_id
             .", ".$db_eigs[(string)$eigenschaft['name']][1].")</br>";
     }
-    foreach( $held->talentliste->talent as $talent ) {
+    foreach( $held->zauberliste->zauber as $talent ) {
         $eig = trim(
             str_replace( array( '(', ')' ), '', $talent['probe'] ), " "
         );
         $eigA = explode( "/", $eig );
-        echo "INSERT INTO talent (name, id_eigenschaft1, id_eigenschaft2"
-            .", id_eigenschaft3, id_ls, id_talentgruppe) VALUES(\"".$talent['name']."\", "
-            .$db_eig[$eigA[0]].", ".$db_eig[$eigA[1]].", ".$db_eig[$eigA[2]].", 6, 6);</br>";
+        echo "INSERT INTO zauber (name, id_eigenschaft1, id_eigenschaft2"
+            .", id_eigenschaft3, id_ls) VALUES(\"".$talent['name']."\", "
+            .$db_eig[$eigA[0]].", ".$db_eig[$eigA[1]].", ".$db_eig[$eigA[2]]
+            .", ".$db_ls[(string)$talent['k']].");</br>";
 
     }
 }

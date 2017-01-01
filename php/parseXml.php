@@ -95,7 +95,7 @@ foreach( $xml->held as $held ) {
         $eigA = explode( "/", $eig );
         echo "INSERT INTO talent (name, id_eigenschaft1, id_eigenschaft2"
             .", id_eigenschaft3, id_ls, id_talentgruppe) VALUES(\"".$talent['name']."\", "
-            .$db_eig[$eigA[0]].", ".$db_eig[$eigA[1]].", ".$db_eig[$eigA[2]].", 2, 3);</br>";
+            .$db_eig[$eigA[0]].", ".$db_eig[$eigA[1]].", ".$db_eig[$eigA[2]].", 6, 6);</br>";
 
     }
 }

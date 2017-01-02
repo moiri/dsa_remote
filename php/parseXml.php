@@ -9,48 +9,16 @@ $sheet = new SheetDbMapper(DBSERVER,DBNAME,DBUSER,DBPASSWORD);
 
 $xml = simplexml_load_file( $_FILES['uploadfile']['tmp_name'] );
 
-$db_eigs = array(
-    "Mut" => array( "eigenschaft", 1 ),
-    "Klugheit" => array( "eigenschaft", 2 ),
-    "Charisma" => array( "eigenschaft", 3 ),
-    "Intuition" => array( "eigenschaft", 4 ),
-    "Fingerfertigkeit" => array( "eigenschaft", 5 ),
-    "Gewandtheit" => array( "eigenschaft", 6 ),
-    "Körperkraft" => array( "eigenschaft", 7 ),
-    "Konstitution" => array( "eigenschaft", 8 ),
-    "Sozialstatus" => array( "eigenschaft", 10 ),
-    "ini" => array( "kampf", 5 ),
-    "at" => array( "kampf", 6 ),
-    "pa" => array( "kampf", 7 ),
-    "fk" => array( "kampf", 8 ),
-    "Lebensenergie" => array( "basis", 1 ),
-    "Ausdauer" => array( "basis", 2 ),
-    "Astralenergie" => array( "basis", 3 ),
-    "Karmaenergie" => array( "basis", 5 ),
-    "Magieresistenz" => array( "basis", 4 )
-);
-$db_eig = array(
-    "MU" => 1,
-    "KL" => 2,
-    "CH" => 3,
-    "IN" => 4,
-    "FF" => 5,
-    "GE" => 6,
-    "KK" => 7,
-    "KO" => 8
-);
-$db_ls = array(
-    "A" => 1,
-    "B" => 2,
-    "C" => 3,
-    "D" => 4,
-    "E" => 5,
-    "F" => 6,
-    "G" => 7,
-    "H" => 8
-);
-
 if( !isset($xml->held['name']) ) die("OOPS");
+
+$json_s = file_get_contents( "../server/db/jar2db.json" );
+$json_a = json_decode( $json_s, true );
+$db_eigs = $json_a['eigenschaft'];
+$db_eig = $json_a['eigenschaft-small'];
+$db_ls = $json_a['ls'];
+$db_bool = $json_a['bool'];
+$db_talent = $json_a['talent'];
+$db_zauber = $json_a['zauber'];
 
 foreach( $xml->held as $held ) {
     echo "INSERT INTO held (id_user, name) VALUES(".$_SESSION['user_id'].", '"
@@ -98,16 +66,16 @@ foreach( $xml->held as $held ) {
             .$eigenschaft['value'].", ".$eigenschaft['mod'].", ".$hero_id
             .", ".$db_eigs[(string)$eigenschaft['name']][1].")</br>";
     }
-    foreach( $held->zauberliste->zauber as $talent ) {
-        $eig = trim(
-            str_replace( array( '(', ')' ), '', $talent['probe'] ), " "
-        );
-        $eigA = explode( "/", $eig );
-        echo "INSERT INTO zauber (name, id_eigenschaft1, id_eigenschaft2"
-            .", id_eigenschaft3, id_ls) VALUES(\"".$talent['name']."\", "
-            .$db_eig[$eigA[0]].", ".$db_eig[$eigA[1]].", ".$db_eig[$eigA[2]]
-            .", ".$db_ls[(string)$talent['k']].");</br>";
-
+    foreach( $held->talentliste->talent as $talent ) {
+        echo "INSERT INTO held_talent (id_held, id_talent, wert) VALUES("
+            .$hero_id.", ".$db_talent[(string)$talent['name']].", "
+            .$talent['value'].");</br>";
+    }
+    foreach( $held->zauberliste->zauber as $zauber ) {
+        echo "INSERT INTO held_zauber (id_held, id_zauber, wert, hauszauber) "
+            ."VALUES(" .$hero_id.", ".$db_zauber[(string)$zauber['name']].", "
+            .$zauber['value'].", ".$db_bool[(string)$zauber['hauszauber']]
+            .");</br>";
     }
 }
 

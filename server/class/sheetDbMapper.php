@@ -60,10 +60,11 @@ class SheetDbMapper extends BaseDbMapper {
      */
     function getAttrByHeroId( $id ) {
         $retValue = false;
-        $sql = "SELECT e.id, e.name, he.wert, he.start, he.modifikator
+        $sql = "SELECT e.*, he.wert, he.start, he.modifikator
              FROM eigenschaft AS e
              LEFT JOIN held_eigenschaft AS he ON e.id = he.id_eigenschaft
-             AND he.id_held = :id";
+             AND he.id_held = :id
+             WHERE e.meta IS NULL";
         $stmt = $this->dbh->prepare( $sql );
         $stmt->execute( array( ':id' => $id ) );
         return $stmt->fetchAll( PDO::FETCH_ASSOC );

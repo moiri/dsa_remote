@@ -166,21 +166,17 @@ class BaseDBMapper {
      * @return true if succeded
      */
     function updateByUid($table, $entries, $id) {
+        $data = array( ':hid' => $id );
         $insertStr = "";
         foreach ($entries as $i => $value) {
-            $insertStr .= mysql_real_escape_string($i)."='".mysql_real_escape_string($value)."', ";
+            $id = ":".$i;
+            $insertStr .= $i."=".$id.", ";
+            $data[$id] = $value;
         }
         $insertStr = rtrim($insertStr, ", ");
-        $sql = sprintf("UPDATE %s SET %s WHERE id='%d';",
-            mysql_real_escape_string($table),
-            $insertStr,
-            mysql_real_escape_string($id));
-        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
-        else $errorQuery = "Error: Invalid mySQL query!";
-        mysql_query($sql, $this->handle)
-            or die ($errorQuery);
-
-        return true;
+        $sql = "UPDATE ".$table." SET ".$insertStr." WHERE id=:hid";
+        $stmt = $this->dbh->prepare( $sql );
+        $stmt->execute( $data );
     }
 }
 

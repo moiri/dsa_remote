@@ -2,9 +2,11 @@
 /**
  * this script loads a view and returns html code
  */
-session_start();
 require_once('../server/class/sheetDbMapper.php');
+require_once('../server/class/login.php');
 require_once('../server/secure/globals.php');
+$login = new Login();
+if( !$login->isUserLoggedIn() ) die( '{ "access": "refused" }' );
 $sheet = new SheetDbMapper(DBSERVER,DBNAME,DBUSER,DBPASSWORD);
 
 header('Content-Type: text/plain');

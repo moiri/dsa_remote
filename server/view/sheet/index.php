@@ -3,6 +3,8 @@
     require_once('server/secure/globals.php');
     $sheet = new SheetDbMapper(DBSERVER,DBNAME,DBUSER,DBPASSWORD);
 
+    if( isset( $_FILES['uploadfile']['tmp_name'] ) )
+        include("parseXml.php");
     if (!isset($_GET['hero'])) include("heroes.php");
     else {
         $_SESSION['hero_id'] = $_GET['hero'];

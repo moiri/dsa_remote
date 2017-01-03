@@ -1,10 +1,4 @@
 <!-- login form box -->
-<?php
-    $args = "";
-    foreach ($_GET as $arg => $val)
-        if ($arg != "logout") $args .= $arg.'='.$val;
-    if (strlen($args)) $args = "?".$args;
-?>
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Register <b class="caret"></b></a>
     <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">

@@ -14,14 +14,20 @@
 <?php
     $res = $sheet->getBaseByHeroId($_SESSION['hero_id']);
     foreach( $res as $attr ) {
+        if( $attr['modifikator'] == null and $attr['kauf'] == null ) continue;
         $sign = ( $attr['modifikator'] > 0 ) ? '+' : '';
+        $start = $sheet->parseFormula( $_SESSION['hero_id'],
+            $attr['wert_def'] );
+        $wert = $start + $attr['modifikator'] + $attr['kauf'];
+        $kauf_max = $sheet->parseFormula( $_SESSION['hero_id'],
+            $attr['max_kauf_def'] );
         print '
         <tr>
             <th>'.$attr['name'].'</th>
             <td class="text-muted small text-right">'.$attr['wert_def'].'</td>
-            <td>'.$attr['wert'].'</td>
+            <td>'.$wert.'</td>
             <td>'.$sign.$attr['modifikator'].'</td>
-            <td>'.$attr['start'].'</td>
+            <td>'.$start.'</td>
             <td class="field-edit">
                 <div class="btn-group" role="group" aria-label="Left Align">
                     <button type="button" class="btn btn-default btn-minus btn-xs" aria-label="Left Align">
@@ -33,7 +39,7 @@
                 </div>
                 <span class="field-val">'.$attr['kauf'].'</span>
             </td>
-            <td>'.$attr['kauf_max'].'<span class="text-muted small pull-right">'.$attr['max_kauf_def'].'</span></td>
+            <td>'.$kauf_max.'<span class="text-muted small pull-right">'.$attr['max_kauf_def'].'</span></td>
         </tr>
 ';
     }

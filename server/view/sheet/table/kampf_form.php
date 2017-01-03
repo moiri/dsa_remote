@@ -4,6 +4,7 @@
             <th style="visibility:hidden">Kampf Grundwert</th>
             <th class="small"></th>
             <th class="small">Aktuell</th>
+            <th class="small">Mod</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +18,9 @@
             <th>'.$attr['name'].'</th>
             <td class="text-muted small text-right">'.$attr['wert_def'].'</td>
             <td>'.$wert.'</td>
+            <td>
+                <input type="number" class="form-control input-sm" value="'.$attr['modifikator'].'">
+            </td>
         </tr>
 ';
     }

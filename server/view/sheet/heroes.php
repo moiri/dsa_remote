@@ -28,19 +28,19 @@
                 <label class="sr-only" for="session_input_desc">Beschreibung</label>
                 <textarea id="session_input_desc" class="form-control" rows="3" placeholder="Beschreibung"></textarea>
             </div>
-            <button type="submit" class="btn btn-success btn-block" name="login">Erstellen</button>
+            <button type="submit" class="btn btn-success btn-block" name="create">Erstellen</button>
         </form>
     </div>
         </div>
         <div class="col-md-6">
     <div class="well">
-        <form method="post" action="php/parseXml.php" enctype="multipart/form-data">
+        <form method="post" action="index.php<?php echo $args;?>" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="uploadfile">File input</label>
-                <input type="file" id="uploadfile" accept=".xml" name="uploadfile">
+                <input type="file" id="uploadfile" accept=".xml" name="uploadfile" required>
                 <p class="help-block">Example block-level help text here.</p>
             </div>
-            <input type="submit" class="btn btn-success btn-block" name="submit" value="Erstellen">
+            <button type="submit" class="btn btn-success btn-block" name="uploadfile">Erstellen</button>
         </form>
     </div>
         </div>

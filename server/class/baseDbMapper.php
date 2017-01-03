@@ -140,34 +140,21 @@ class BaseDBMapper {
      * @return inserted id if succeded
      */
     function insert($table, $entries) {
-        $hasColNames = true;
-        $columnStr = " (";
-        $valueStr = "VALUES(";
+        $data = array();
+        $columnStr = "";
+        $valueStr = "";
         foreach ($entries as $i => $value) {
-            if(is_numeric($i)) $hasColNames = false;
-            else $columnStr .= mysql_real_escape_string($i).", ";
-            $valueStr .= "'".mysql_real_escape_string($value)."', ";
+            $columnStr .= $i.", ";
+            $id = ":".$i;
+            $valueStr .= $id.", ";
+            $data[$id] = $value;
         }
-        if($hasColNames) {
-            $columnStr = rtrim($columnStr, ", ");
-            $columnStr .= ")";
-        }
-        else {
-            $columnStr = "";
-        }
+        $columnStr = rtrim($columnStr, ", ");
         $valueStr = rtrim($valueStr, ", ");
-        $valueStr .= ")";
-        $insertStr = $columnStr." ".$valueStr;
-        $sql = sprintf("INSERT INTO %s%s;",
-            mysql_real_escape_string($table),
-            $insertStr);
-        if($this->debug) $errorQuery = "Error: Invalid mySQL query: ".$sql;
-        else $errorQuery = "Error: Invalid mySQL query!";
-        mysql_query($sql, $this->handle)
-            or die ($errorQuery);
-
-
-        return mysql_insert_id();
+        $sql = "INSERT INTO ".$table." (".$columnStr.") VALUES(".$valueStr.")";
+        $stmt = $this->dbh->prepare( $sql );
+        $stmt->execute( $data );
+        return $this->dbh->lastInsertId();
     }
 
     /**

@@ -1,6 +1,6 @@
 {
     "bool": {
-        "false": "NULL",
+        "false": null,
         "true": 1
     },
     "ls": {
@@ -26,24 +26,83 @@
         "-": 12
     },
     "eigenschaft": {
-        "Mut": [ "eigenschaft", 1 ],
-        "Klugheit": [ "eigenschaft", 2 ],
-        "Charisma": [ "eigenschaft", 3 ],
-        "Intuition": [ "eigenschaft", 4 ],
-        "Fingerfertigkeit": [ "eigenschaft", 5 ],
-        "Gewandtheit": [ "eigenschaft", 6 ],
-        "Körperkraft": [ "eigenschaft", 7 ],
-        "Konstitution": [ "eigenschaft", 8 ],
-        "Sozialstatus": [ "eigenschaft", 10 ],
-        "ini": [ "kampf", 5 ],
-        "at": [ "kampf", 6 ],
-        "pa": [ "kampf", 7 ],
-        "fk": [ "kampf", 8 ],
-        "Lebensenergie": [ "basis", 1 ],
-        "Ausdauer": [ "basis", 2 ],
-        "Astralenergie": [ "basis", 3 ],
-        "Karmaenergie": [ "basis", 5 ],
-        "Magieresistenz": [ "basis", 4 ]
+        "Mut": [ "eigenschaft", 1, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Klugheit": [ "eigenschaft", 2, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Charisma": [ "eigenschaft", 3, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Intuition": [ "eigenschaft", 4, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Fingerfertigkeit": [ "eigenschaft", 5, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Gewandtheit": [ "eigenschaft", 6, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Körperkraft": [ "eigenschaft", 7, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Konstitution": [ "eigenschaft", 8, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "Sozialstatus": [ "eigenschaft", 10, {
+            "mod": "modifikator",
+            "startwert": "start",
+            "value": "wert"
+        } ],
+        "ini": [ "kampf", 5, {
+            "mod": "modifikator"
+        } ],
+        "at": [ "kampf", 6, {
+            "mod": "modifikator"
+        } ],
+        "pa": [ "kampf", 7, {
+            "mod": "modifikator"
+        } ],
+        "fk": [ "kampf", 8, {
+            "mod": "modifikator"
+        } ],
+        "Lebensenergie": [ "basis", 1, {
+            "mod": "modifikator",
+            "value": "kauf"
+        } ],
+        "Ausdauer": [ "basis", 2, {
+            "mod": "modifikator",
+            "value": "kauf"
+        } ],
+        "Astralenergie": [ "basis", 3, {
+            "mod": "modifikator",
+            "value": "kauf"
+        } ],
+        "Karmaenergie": [ "basis", 5, {
+            "mod": "modifikator",
+            "value": "kauf"
+        } ],
+        "Magieresistenz": [ "basis", 4, {
+            "mod": "modifikator",
+            "value": "kauf"
+        } ]
     },
     "talent": {
         "Anderthalbhänder": 55,

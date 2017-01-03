@@ -1,6 +1,10 @@
 <?php
 if(!isset($_GET['page'])) $_GET['page'] = 0;
 $css=' class="active"';
+$args = "";
+foreach ($_GET as $arg => $val)
+    if ($arg != "logout") $args .= $arg.'='.$val.'&';
+if (strlen($args)) $args = "?".$args;
 ?>
 
    <div class="row">

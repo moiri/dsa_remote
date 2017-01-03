@@ -48,11 +48,12 @@ $(document).ready(function() {
         shake( panel.parent() );
     });
     $('button.btn-cancel').click( function () {
-        var table = $(this).parents('div.panel-body').first().children('table.table');
+        var panel = $(this).parents('div.panel-body').first();
+        var table = panel.children('table.table');
         var button = $(this).parent();
         $.ajax( 'php/get_view.php?path=' + table.attr('id') )
             .done( function( data ) {
-                table.replaceWith( data );
+                panel.replaceWith( data );
                 button.prev().show();
                 button.hide();
             });

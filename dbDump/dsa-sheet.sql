@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 02, 2017 at 02:11 PM
+-- Generation Time: Jan 03, 2017 at 02:32 AM
 -- Server version: 5.7.16-0ubuntu0.16.04.1
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -108,14 +108,14 @@ INSERT INTO `gruppe` (`id`, `name`, `description`, `owner`) VALUES
 CREATE TABLE `held` (
   `id` int(11) UNSIGNED ZEROFILL NOT NULL,
   `id_user` int(11) UNSIGNED ZEROFILL NOT NULL,
-  `chatname` varchar(20) COLLATE utf8_bin NOT NULL,
+  `chatname` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `name` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `beschrieb` text COLLATE utf8_bin NOT NULL,
+  `beschrieb` text COLLATE utf8_bin,
   `titel` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `geschlecht` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `rasse` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `kultur` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `profession` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `profession` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `geburtsdatum` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `haarfarbe` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `augenfarbe` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -128,9 +128,7 @@ CREATE TABLE `held` (
 --
 
 INSERT INTO `held` (`id`, `id_user`, `chatname`, `name`, `beschrieb`, `titel`, `geschlecht`, `rasse`, `kultur`, `profession`, `geburtsdatum`, `haarfarbe`, `augenfarbe`, `groesse`, `gewicht`) VALUES
-(00000000001, 00000000001, 'Yendan', 'Yendan aus Perricum zu Nimra', 'Yendan ist ein Magier wie man sie aus düsteren Märchen kennt. Seine Person ist von vielen geheimnisvollen Geschichten umrankt, Geschichten die ihn in der gorische Wüste den Theclador-Effekt entdecken lassen, ihn als gestaltenwandelnder weisser Drache beschreiben oder gar als dunkler Genosse des Dämonenmeisters Borbarad.\r\n\r\nSein dumpf glimmendes linkes Rubin-Auge, die langen weissen Haare und die fremdländischen Gesichtszüge machen es schwer sein Alter zu schätzen.', 'Edler von Nimra', 'männlich', 'Nivese', 'Garetien', 'Magier', '8. Boron 976 BF (17 v. Hal)', 'weiss', 'rot/bernstein', '87 Finger', '61 Stein'),
-(00000000002, 00000000001, 'Connar', 'Connar', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(00000000003, 00000000005, '', 'Falaris', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(00000000001, 00000000001, NULL, 'Yendan aus Perricum', 'Yendan ist ein Magier wie man sie aus düsteren Märchen kennt. Seine Person ist von vielen geheimnisvollen Geschichten umrankt, Geschichten die ihn in der gorische Wüste den Theclador-Effekt entdecken lassen, ihn als gestaltenwandelnder weisser Drache beschreiben oder gar als dunkler Genosse des Dämonenmeisters Borbarad. Sein dumpf glimmendes linkes Rubin-Auge, die langen weissen Haare und die fremdländischen Gesichtszüge machen es schwer sein Alter zu schätzen.', NULL, 'männlich', 'Nivese', 'Mittelländische Städte', 'Schule der Austreibung zu Perricum', '5. 5. 1003', 'kupferrot', 'bernstein', '181', '71');
 
 -- --------------------------------------------------------
 
@@ -142,22 +140,20 @@ CREATE TABLE `held_basis` (
   `id` int(11) UNSIGNED ZEROFILL NOT NULL,
   `id_held` int(11) UNSIGNED ZEROFILL NOT NULL,
   `id_basis` int(11) UNSIGNED ZEROFILL NOT NULL,
-  `wert` int(2) NOT NULL,
-  `start` int(2) NOT NULL,
   `modifikator` int(2) DEFAULT NULL,
-  `kauf` int(2) DEFAULT NULL,
-  `kauf_max` int(2) DEFAULT NULL
+  `kauf` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `held_basis`
 --
 
-INSERT INTO `held_basis` (`id`, `id_held`, `id_basis`, `wert`, `start`, `modifikator`, `kauf`, `kauf_max`) VALUES
-(00000000001, 00000000001, 00000000001, 26, 19, 6, 1, 7),
-(00000000002, 00000000001, 00000000002, 34, 21, 10, 3, 28),
-(00000000003, 00000000001, 00000000003, 68, 33, 30, 5, 15),
-(00000000004, 00000000001, 00000000004, 9, 10, -3, 2, 9);
+INSERT INTO `held_basis` (`id`, `id_held`, `id_basis`, `modifikator`, `kauf`) VALUES
+(00000000001, 00000000001, 00000000001, 9, 0),
+(00000000002, 00000000001, 00000000002, 12, 0),
+(00000000003, 00000000001, 00000000003, 19, 0),
+(00000000004, 00000000001, 00000000005, 0, 0),
+(00000000005, 00000000001, 00000000004, -3, 0);
 
 -- --------------------------------------------------------
 
@@ -171,25 +167,24 @@ CREATE TABLE `held_eigenschaft` (
   `id_eigenschaft` int(11) UNSIGNED ZEROFILL NOT NULL,
   `wert` int(2) NOT NULL,
   `start` int(2) NOT NULL,
-  `modifikator` int(2) DEFAULT NULL
+  `modifikator` int(2) DEFAULT NULL,
+  `permanent` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `held_eigenschaft`
 --
 
-INSERT INTO `held_eigenschaft` (`id`, `id_held`, `id_eigenschaft`, `wert`, `start`, `modifikator`) VALUES
-(00000000001, 00000000001, 00000000001, 17, 14, NULL),
-(00000000002, 00000000001, 00000000002, 18, 14, NULL),
-(00000000003, 00000000001, 00000000003, 15, 14, NULL),
-(00000000004, 00000000001, 00000000004, 18, 14, 1),
-(00000000005, 00000000001, 00000000005, 12, 12, NULL),
-(00000000006, 00000000001, 00000000006, 12, 11, NULL),
-(00000000007, 00000000001, 00000000007, 10, 10, NULL),
-(00000000008, 00000000001, 00000000008, 14, 11, 1),
-(00000000009, 00000000001, 00000000009, 8, 8, NULL),
-(00000000010, 00000000002, 00000000002, 11, 11, NULL),
-(00000000011, 00000000001, 00000000010, 11, 11, NULL);
+INSERT INTO `held_eigenschaft` (`id`, `id_held`, `id_eigenschaft`, `wert`, `start`, `modifikator`, `permanent`) VALUES
+(00000000001, 00000000001, 00000000001, 14, 14, 0, NULL),
+(00000000002, 00000000001, 00000000002, 14, 14, 0, NULL),
+(00000000003, 00000000001, 00000000004, 13, 13, 1, NULL),
+(00000000004, 00000000001, 00000000003, 14, 14, 0, NULL),
+(00000000005, 00000000001, 00000000005, 12, 12, 0, NULL),
+(00000000006, 00000000001, 00000000006, 11, 11, 0, NULL),
+(00000000007, 00000000001, 00000000008, 12, 12, 1, NULL),
+(00000000008, 00000000001, 00000000007, 10, 10, 0, NULL),
+(00000000009, 00000000001, 00000000010, 7, 7, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -223,18 +218,18 @@ CREATE TABLE `held_kampf` (
   `id` int(11) UNSIGNED ZEROFILL NOT NULL,
   `id_held` int(11) UNSIGNED ZEROFILL NOT NULL,
   `id_kampf` int(11) UNSIGNED ZEROFILL NOT NULL,
-  `wert` int(2) NOT NULL
+  `modifikator` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `held_kampf`
 --
 
-INSERT INTO `held_kampf` (`id`, `id_held`, `id_kampf`, `wert`) VALUES
-(00000000005, 00000000001, 00000000005, 13),
-(00000000006, 00000000001, 00000000006, 8),
-(00000000007, 00000000001, 00000000007, 8),
-(00000000008, 00000000001, 00000000008, 8);
+INSERT INTO `held_kampf` (`id`, `id_held`, `id_kampf`, `modifikator`) VALUES
+(00000000001, 00000000001, 00000000005, 0),
+(00000000002, 00000000001, 00000000006, 0),
+(00000000003, 00000000001, 00000000007, 0),
+(00000000004, 00000000001, 00000000008, 0);
 
 -- --------------------------------------------------------
 
@@ -248,18 +243,6 @@ CREATE TABLE `held_nachteil` (
   `nachteil` varchar(100) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Dumping data for table `held_nachteil`
---
-
-INSERT INTO `held_nachteil` (`id`, `id_held`, `nachteil`) VALUES
-(00000000001, 00000000001, 'Neugier 8'),
-(00000000003, 00000000001, 'Verpflichtungen (Gegenüber der Akademie, der Gilde und dem Reich)'),
-(00000000004, 00000000001, 'Prinzipienteue (Zwölfgötterglaube, Dämonnenvernichtung und Wahrheitsliebe)'),
-(00000000005, 00000000001, 'Kurzatmig (-2)'),
-(00000000006, 00000000001, 'Niedere Lebenskraft (-3)'),
-(00000000007, 00000000001, 'Einbildungen (Verfolgungswahn)');
-
 -- --------------------------------------------------------
 
 --
@@ -272,6 +255,69 @@ CREATE TABLE `held_talent` (
   `id_talent` int(11) UNSIGNED ZEROFILL NOT NULL,
   `wert` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `held_talent`
+--
+
+INSERT INTO `held_talent` (`id`, `id_held`, `id_talent`, `wert`) VALUES
+(00000000001, 00000000001, 00000000061, 1),
+(00000000002, 00000000001, 00000000063, 0),
+(00000000003, 00000000001, 00000000064, 1),
+(00000000004, 00000000001, 00000000069, 4),
+(00000000005, 00000000001, 00000000070, 2),
+(00000000006, 00000000001, 00000000071, 0),
+(00000000007, 00000000001, 00000000075, 2),
+(00000000008, 00000000001, 00000000077, 1),
+(00000000009, 00000000001, 00000000083, 0),
+(00000000010, 00000000001, 00000000086, 0),
+(00000000011, 00000000001, 00000000087, 3),
+(00000000012, 00000000001, 00000000089, 1),
+(00000000013, 00000000001, 00000000090, 0),
+(00000000014, 00000000001, 00000000091, 6),
+(00000000015, 00000000001, 00000000092, 0),
+(00000000016, 00000000001, 00000000093, 0),
+(00000000017, 00000000001, 00000000094, 3),
+(00000000018, 00000000001, 00000000097, 0),
+(00000000019, 00000000001, 00000000099, 1),
+(00000000020, 00000000001, 00000000101, 2),
+(00000000021, 00000000001, 00000000102, 1),
+(00000000022, 00000000001, 00000000103, 3),
+(00000000023, 00000000001, 00000000104, 5),
+(00000000024, 00000000001, 00000000106, 1),
+(00000000025, 00000000001, 00000000108, 3),
+(00000000026, 00000000001, 00000000109, 4),
+(00000000027, 00000000001, 00000000110, 0),
+(00000000028, 00000000001, 00000000112, 2),
+(00000000029, 00000000001, 00000000114, 1),
+(00000000030, 00000000001, 00000000116, 0),
+(00000000031, 00000000001, 00000000121, 3),
+(00000000032, 00000000001, 00000000123, 6),
+(00000000033, 00000000001, 00000000124, 1),
+(00000000034, 00000000001, 00000000128, 7),
+(00000000035, 00000000001, 00000000130, 2),
+(00000000036, 00000000001, 00000000132, 5),
+(00000000037, 00000000001, 00000000133, 4),
+(00000000038, 00000000001, 00000000134, 5),
+(00000000039, 00000000001, 00000000138, 2),
+(00000000040, 00000000001, 00000000139, 2),
+(00000000041, 00000000001, 00000000146, 6),
+(00000000042, 00000000001, 00000000150, 16),
+(00000000043, 00000000001, 00000000170, 3),
+(00000000044, 00000000001, 00000000174, 4),
+(00000000045, 00000000001, 00000000193, 8),
+(00000000046, 00000000001, 00000000195, 4),
+(00000000047, 00000000001, 00000000200, 4),
+(00000000048, 00000000001, 00000000203, 2),
+(00000000049, 00000000001, 00000000218, 1),
+(00000000050, 00000000001, 00000000221, 4),
+(00000000051, 00000000001, 00000000222, 0),
+(00000000052, 00000000001, 00000000223, 0),
+(00000000053, 00000000001, 00000000226, 0),
+(00000000054, 00000000001, 00000000228, 0),
+(00000000055, 00000000001, 00000000229, 5),
+(00000000056, 00000000001, 00000000235, 0),
+(00000000057, 00000000001, 00000000263, 5);
 
 -- --------------------------------------------------------
 
@@ -290,11 +336,12 @@ CREATE TABLE `held_vorteil` (
 --
 
 INSERT INTO `held_vorteil` (`id`, `id_held`, `vorteil`) VALUES
-(00000000001, 00000000001, 'Begabung für Antimagie'),
-(00000000002, 00000000001, 'Begabung für Hellsicht'),
-(00000000003, 00000000001, 'Akademische Ausbildung (Magier)'),
-(00000000004, 00000000001, 'Vollzauberer'),
-(00000000005, 00000000001, 'Astralmacht (+2 +3)');
+(00000000001, 00000000001, 'Akademische Ausbildung (Magier)'),
+(00000000002, 00000000001, 'Vollzauberer'),
+(00000000003, 00000000001, 'Neugier: 9'),
+(00000000004, 00000000001, 'Prinzipientreue: 10'),
+(00000000005, 00000000001, 'Schulden: 1100'),
+(00000000006, 00000000001, 'Verpflichtungen');
 
 -- --------------------------------------------------------
 
@@ -335,6 +382,34 @@ CREATE TABLE `held_zauber` (
   `wert` int(5) NOT NULL,
   `hauszauber` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `held_zauber`
+--
+
+INSERT INTO `held_zauber` (`id`, `id_held`, `id_zauber`, `wert`, `hauszauber`) VALUES
+(00000000001, 00000000001, 00000000010, 6, NULL),
+(00000000002, 00000000001, 00000000011, 4, NULL),
+(00000000003, 00000000001, 00000000022, 4, NULL),
+(00000000004, 00000000001, 00000000030, 3, NULL),
+(00000000005, 00000000001, 00000000032, 7, 1),
+(00000000006, 00000000001, 00000000056, 2, NULL),
+(00000000007, 00000000001, 00000000064, 7, 1),
+(00000000008, 00000000001, 00000000072, 2, NULL),
+(00000000009, 00000000001, 00000000079, 3, NULL),
+(00000000010, 00000000001, 00000000086, 7, NULL),
+(00000000011, 00000000001, 00000000090, 7, 1),
+(00000000012, 00000000001, 00000000091, 2, NULL),
+(00000000013, 00000000001, 00000000120, 7, 1),
+(00000000014, 00000000001, 00000000165, 2, NULL),
+(00000000015, 00000000001, 00000000186, 7, NULL),
+(00000000016, 00000000001, 00000000193, 2, NULL),
+(00000000017, 00000000001, 00000000196, 7, 1),
+(00000000018, 00000000001, 00000000208, 4, NULL),
+(00000000019, 00000000001, 00000000213, 7, 1),
+(00000000020, 00000000001, 00000000234, 3, NULL),
+(00000000021, 00000000001, 00000000258, 2, NULL),
+(00000000022, 00000000001, 00000000265, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -757,46 +832,47 @@ INSERT INTO `talent` (`id`, `name`, `id_eigenschaft1`, `id_eigenschaft2`, `id_ei
 
 CREATE TABLE `talentgruppe` (
   `id` int(11) UNSIGNED ZEROFILL NOT NULL,
-  `name` varchar(50) COLLATE utf8_bin NOT NULL
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `gruppe` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `talentgruppe`
 --
 
-INSERT INTO `talentgruppe` (`id`, `name`) VALUES
-(00000000001, 'Körperliche Talente'),
-(00000000002, 'Gesellschaftliche Talente'),
-(00000000003, 'Handwerkliche Talente'),
-(00000000004, 'Naturtalente'),
-(00000000005, 'Wissenstalente'),
-(00000000006, 'Gaben'),
-(00000000007, 'Sprachfamilie Garethi'),
-(00000000008, 'Schriften'),
-(00000000009, 'Bewaffnete Kampftalente'),
-(00000000010, 'Fernkampftalente'),
-(00000000011, 'Zauber'),
-(00000000012, 'Ritualkenntnis'),
-(00000000013, 'Sprachfamilie Tulamidya'),
-(00000000014, 'Sprachfamilie Nivesen'),
-(00000000015, 'Sprachfamilie Waldmenschen'),
-(00000000016, 'Sprachfamilie Thorwaler'),
-(00000000017, 'Sprachfamilie Elfen'),
-(00000000018, 'Sprachfamilie Zwerge'),
-(00000000019, 'Sprachfamilie Orks'),
-(00000000020, 'Sprachfamilie Trolle'),
-(00000000021, 'Sprachfamilie Geschuppte'),
-(00000000022, 'Sprachfamilie Meere'),
-(00000000023, 'Sprachfamilie Moloche'),
-(00000000024, 'Sprachfamilie Necker'),
-(00000000025, 'Sprachfamilie Grolme'),
-(00000000026, 'Sprachfamilie Zilten'),
-(00000000027, 'Sprachfamilie Magier'),
-(00000000028, 'Sprachfamilie Zeichen'),
-(00000000029, 'Sprachfamilie Drachen'),
-(00000000030, 'Sprachfamilie Goblins'),
-(00000000031, 'Bewaffnete Angriffstalente'),
-(00000000032, 'Unbewaffnete Kampftalente');
+INSERT INTO `talentgruppe` (`id`, `name`, `gruppe`) VALUES
+(00000000001, 'Körperliche Talente', NULL),
+(00000000002, 'Gesellschaftliche Talente', NULL),
+(00000000003, 'Handwerkliche Talente', NULL),
+(00000000004, 'Naturtalente', NULL),
+(00000000005, 'Wissenstalente', NULL),
+(00000000006, 'Gaben', NULL),
+(00000000007, 'Sprachfamilie Garethi', 1),
+(00000000008, 'Schriften', NULL),
+(00000000009, 'Bewaffnete Kampftalente', NULL),
+(00000000010, 'Fernkampftalente', NULL),
+(00000000011, 'Zauber', NULL),
+(00000000012, 'Ritualkenntnis', NULL),
+(00000000013, 'Sprachfamilie Tulamidya', 1),
+(00000000014, 'Sprachfamilie Nivesen', 1),
+(00000000015, 'Sprachfamilie Waldmenschen', 1),
+(00000000016, 'Sprachfamilie Thorwaler', 1),
+(00000000017, 'Sprachfamilie Elfen', 1),
+(00000000018, 'Sprachfamilie Zwerge', 1),
+(00000000019, 'Sprachfamilie Orks', 1),
+(00000000020, 'Sprachfamilie Trolle', 1),
+(00000000021, 'Sprachfamilie Geschuppte', 1),
+(00000000022, 'Sprachfamilie Meere', 1),
+(00000000023, 'Sprachfamilie Moloche', 1),
+(00000000024, 'Sprachfamilie Necker', 1),
+(00000000025, 'Sprachfamilie Grolme', 1),
+(00000000026, 'Sprachfamilie Zilten', 1),
+(00000000027, 'Sprachfamilie Magier', 1),
+(00000000028, 'Sprachfamilie Zeichen', 1),
+(00000000029, 'Sprachfamilie Drachen', 1),
+(00000000030, 'Sprachfamilie Goblins', 1),
+(00000000031, 'Bewaffnete Angriffstalente', NULL),
+(00000000032, 'Unbewaffnete Kampftalente', NULL);
 
 -- --------------------------------------------------------
 
@@ -1427,17 +1503,17 @@ ALTER TABLE `gruppe`
 -- AUTO_INCREMENT for table `held`
 --
 ALTER TABLE `held`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `held_basis`
 --
 ALTER TABLE `held_basis`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `held_eigenschaft`
 --
 ALTER TABLE `held_eigenschaft`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `held_gruppe`
 --
@@ -1447,22 +1523,22 @@ ALTER TABLE `held_gruppe`
 -- AUTO_INCREMENT for table `held_kampf`
 --
 ALTER TABLE `held_kampf`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `held_nachteil`
 --
 ALTER TABLE `held_nachteil`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `held_talent`
 --
 ALTER TABLE `held_talent`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT for table `held_vorteil`
 --
 ALTER TABLE `held_vorteil`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `held_waffe`
 --
@@ -1472,7 +1548,7 @@ ALTER TABLE `held_waffe`
 -- AUTO_INCREMENT for table `held_zauber`
 --
 ALTER TABLE `held_zauber`
-  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `kampf`
 --

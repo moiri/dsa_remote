@@ -64,7 +64,7 @@ class SheetDbMapper extends BaseDbMapper {
              FROM eigenschaft AS e
              LEFT JOIN held_eigenschaft AS he ON e.id = he.id_eigenschaft
              AND he.id_held = :id
-             WHERE e.meta IS NULL";
+             WHERE e.meta IS NOT NULL";
         $stmt = $this->dbh->prepare( $sql );
         $stmt->execute( array( ':id' => $id ) );
         return $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -192,18 +192,6 @@ class SheetDbMapper extends BaseDbMapper {
             $res = $this->getHeroEigenschaftByShort( $hid, $formula );
         }
         return round( $mul * $res / $div );
-    }
-
-    function getHeroLE( $id ) {
-        $kk = $this->getHeroEigenschaft( $id, 7 );
-        $ko = $this->getHeroEigenschaft( $id, 8 );
-        $sql = "SELECT modifikator, kauf FROM held_basis "
-            ."WHERE id_held=:hid AND id_basis=1";
-        $stmt->execute( array( ':id' => $id ) );
-        $le = $stmt->fetch( PDO::FETCH_ASSOC );
-        $le['start'] = ($kk+$ko+$ko)/2;
-        $le['tart'] = ($kk+$ko+$ko)/2;
-        return $le;
     }
 }
 

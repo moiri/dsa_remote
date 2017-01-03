@@ -11,7 +11,7 @@
     foreach( $res as $nt ) {
     print '
         <tr>
-            <td>'.$nt['nachteil'].'</td>
+            <td field-edit>'.$nt['nachteil'].'</td>
         </tr>
 ';
     }

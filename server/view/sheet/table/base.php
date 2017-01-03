@@ -26,9 +26,9 @@
             <th>'.$attr['name'].'</th>
             <td class="text-muted small text-right">'.$attr['wert_def'].'</td>
             <td>'.$wert.'</td>
-            <td>'.$sign.$attr['modifikator'].'</td>
+            <td class="field-edit">'.$sign.$attr['modifikator'].'</td>
             <td>'.$start.'</td>
-            <td>'.$attr['kauf'].'</td>
+            <td class="field-edit field-lvl">'.$attr['kauf'].'</td>
             <td>'.$kauf_max
                 .'<span class="text-muted small pull-right">'
                 .$attr['max_kauf_def'].'</span></td>

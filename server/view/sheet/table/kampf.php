@@ -2,8 +2,9 @@
     <thead>
         <tr>
             <th style="visibility:hidden">Kampf Grundwert</th>
-            <th class="small"></th>
+            <th class="small field-edit-hide"></th>
             <th class="small">Aktuell</th>
+            <th style="display:none" class="small field-edit-show">Mod</th>
         </tr>
     </thead>
     <tbody>
@@ -15,8 +16,10 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td class="text-muted small text-right">'.$attr['wert_def'].'</td>
+            <td class="text-muted small text-right field-edit-hide">'.$attr['wert_def'].'</td>
             <td>'.$wert.'</td>
+            <td style="display:none" class="field-edit field-edit-show">'
+                .$attr['modifikator'].'</td>
         </tr>
 ';
     }

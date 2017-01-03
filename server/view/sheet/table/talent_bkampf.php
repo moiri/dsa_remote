@@ -1,23 +1,28 @@
 <?php
-    $id_tg = 11;
+    $id_tg = 9;
     $tg = $sheet->selectByUid( 'talentgruppe', $id_tg );
 ?>
-<table id="sheet-table-zauber" class="table table-condensed">
+<table id="sheet-table-talent_bkampf" class="table table-condensed">
     <thead>
         <tr>
             <th><?php print $tg['name'];?></th>
             <th class="small field-edit-hide"></th>
+            <th class="small">AT</th>
+            <th class="small">PA</th>
+            <th class="small field-edit-hide">eBE</th>
             <th class="small">TaW</th>
             <th class="small">Spez</th>
         </tr>
     </thead>
     <tbody>
 <?php
-    $res = $sheet->getZauberByHeroId( $_SESSION['hero_id'] );
+    $res = $sheet->getTalentByHeroIdGruppeId( $_SESSION['hero_id'], $id_tg );
     foreach( $res as $attr ) {
         if( $attr['wert'] == null ) $attr['wert'] = 0;
-        if( $attr['hauszauber'] == 1 )
-            $attr['name'] = "<em>".$attr['name']."</em>";
+        $eBE = $attr['eBE'];
+        if( $eBE == null ) $eBE = "";
+        else if( $eBE == 0 ) $eBE = "BE";
+        else if( $eBE > 0 ) $eBE = "x".$eBE;
         print '
         <tr>
             <th>'.$attr['name'].'</th>
@@ -25,6 +30,9 @@
                 .$attr['es1'].' / '
                 .$attr['es2'].' / '
                 .$attr['es3'].'</td>
+            <td class="field-edit"></td>
+            <td class="field-edit"></td>
+            <td class="field-edit-hide">'.$eBE.'</td>
             <td class="field-edit field-lvl">'.$attr['wert'].'</td>
             <td class="field-edit"></td>
         </tr>

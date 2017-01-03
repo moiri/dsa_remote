@@ -2,14 +2,14 @@
     $id_tg = 32;
     $tg = $sheet->selectByUid( 'talentgruppe', $id_tg );
 ?>
-<table id="sheet-table-talent-ukampf" class="table table-condensed">
+<table id="sheet-table-talent_ukampf" class="table table-condensed">
     <thead>
         <tr>
             <th><?php print $tg['name'];?></th>
-            <th class="small"></th>
+            <th class="small field-edit-hide"></th>
             <th class="small">AT</th>
             <th class="small">PA</th>
-            <th class="small">eBE</th>
+            <th class="small field-edit-hide">eBE</th>
             <th class="small">TaW</th>
             <th class="small">Spez</th>
         </tr>
@@ -26,14 +26,14 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td class="text-muted small text-right">'
+            <td class="text-muted small text-right field-edit-hide">'
                 .$attr['es1'].' / '
                 .$attr['es2'].' / '
                 .$attr['es3'].'</td>
             <td class="field-edit"></td>
             <td class="field-edit"></td>
-            <td class="field-edit">'.$eBE.'</td>
-            <td class="field-edit">'.$attr['wert'].'</td>
+            <td class="field-edit-hide">'.$eBE.'</td>
+            <td class="field-edit field-lvl">'.$attr['wert'].'</td>
             <td class="field-edit"></td>
         </tr>
 ';

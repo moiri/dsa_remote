@@ -56,12 +56,12 @@
         <div class="col-md-6">
     ';
     include("table/table-head-el.php");
-    include('table/talent-bkampf.php');
+    include('table/talent_bkampf.php');
     include("table/table-tail.php");
     $res = $sheet->getTalentByHeroIdGruppeId( $_SESSION['hero_id'], 31 );
     if( count( $res ) > 0 ) {
         include("table/table-head-el.php");
-        include('table/talent-akampf.php');
+        include('table/talent_akampf.php');
         include("table/table-tail.php");
     }
     print '
@@ -69,10 +69,10 @@
         <div class="col-md-6">
     ';
     include("table/table-head-el.php");
-    include('table/talent-fkampf.php');
+    include('table/talent_fkampf.php');
     include("table/table-tail.php");
     include("table/table-head-el.php");
-    include('table/talent-ukampf.php');
+    include('table/talent_ukampf.php');
     include("table/table-tail.php");
     print '
         </div>
@@ -81,27 +81,33 @@
         <div class="col-md-6">
     ';
     include("table/table-head-el.php");
-    include('table/talent-koerper.php');
+    include('table/talent_koerper.php');
     include("table/table-tail.php");
     include("table/table-head-el.php");
-    include('table/talent-gesellschaft.php');
+    include('table/talent_gesellschaft.php');
     include("table/table-tail.php");
     include("table/table-head-el.php");
-    include('table/talent-natur.php');
+    include('table/talent_natur.php');
     include("table/table-tail.php");
     print '
         </div>
         <div class="col-md-6">
     ';
     include("table/table-head-el.php");
-    include('table/talent-handwerk.php');
+    include('table/talent_handwerk.php');
     include("table/table-tail.php");
     include("table/table-head-el.php");
-    include('table/talent-wissen.php');
+    include('table/talent_wissen.php');
     include("table/table-tail.php");
     include("table/table-head-el.php");
-    include('table/talent-sprachen.php');
+    include('table/talent_sprachen.php');
     include("table/table-tail.php");
+    $res = $sheet->getTalentByHeroIdGruppeId( $_SESSION['hero_id'], 6 );
+    if( count( $res ) > 0 ) {
+        include("table/table-head-el.php");
+        include('table/talent_gaben.php');
+        include("table/table-tail.php");
+    }
     print '
         </div>
     </div>

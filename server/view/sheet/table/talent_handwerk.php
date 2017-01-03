@@ -2,11 +2,11 @@
     $id_tg = 3;
     $tg = $sheet->selectByUid( 'talentgruppe', $id_tg );
 ?>
-<table id="sheet-table-talent-handwerk" class="table table-condensed">
+<table id="sheet-table-talent_handwerk" class="table table-condensed">
     <thead>
         <tr>
             <th><?php print $tg['name'];?></th>
-            <th class="small"></th>
+            <th class="small field-edit-hide"></th>
             <th class="small">TaW</th>
             <th class="small">Spez</th>
         </tr>
@@ -19,11 +19,11 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td class="text-muted small text-right">'
+            <td class="text-muted small text-right field-edit-hide">'
                 .$attr['es1'].' / '
                 .$attr['es2'].' / '
                 .$attr['es3'].'</td>
-            <td class="field-edit">'.$attr['wert'].'</td>
+            <td class="field-edit field-lvl">'.$attr['wert'].'</td>
             <td class="field-edit"></td>
         </tr>
 ';

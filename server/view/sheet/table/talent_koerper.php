@@ -29,7 +29,8 @@
                 .$attr['es2'].' / '
                 .$attr['es3'].'</td>
             <td class="field-edit-hide">'.$eBE.'</td>
-            <td class="field-edit field-lvl">'.$attr['wert'].'</td>
+            <td id="held_talent-wert-'.$attr['id']
+                .'" class="field-edit field-lvl">'.$attr['wert'].'</td>
             <td class="field-edit"></td>
         </tr>
 ';

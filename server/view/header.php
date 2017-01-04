@@ -56,36 +56,16 @@ if ($login->isUserLoggedIn()) {
 <?php
 // show potential errors / feedback (from login object)
 if (isset($login)) {
-    if ($login->errors) {
-        foreach ($login->errors as $error) {
-            echo '
-<div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$error.'</div>';
-        }
-    }
-    if ($login->messages) {
-        foreach ($login->messages as $message) {
-            echo '
-<div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$message.'</div>';
-        }
-    }
+    $login->printLog( 3 );
 }
 // show potential errors / feedback (from registration object)
 if (isset($registration)) {
-    if ($registration->errors) {
-        foreach ($registration->errors as $error) {
-            echo '
-<div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$error.'</div>';
-        }
-    }
-    if ($registration->messages) {
-        foreach ($registration->messages as $message) {
-            echo '
-<div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$message.'</div>';
-        }
-    }
+    $registration->printLog( 3 );
+}
+if (isset($sheet)) {
+    $sheet->printLog( 4 );
+}
+if (isset($sheet2)) {
+    $sheet2->printLog( 4 );
 }
 ?>

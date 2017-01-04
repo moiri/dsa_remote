@@ -1,38 +1,35 @@
 <?php
+require_once('logger.php');
 /**
  * Class to handle the global communication with the DB
  * 
  * @author moiri
  */
-class BaseDBMapper {
+class BaseDBMapper extends Logger {
     var $dbh = null;
 
     /**
      * Open connection to mysql database
      *
      * @param string $server:   address of server
-     * @param string $database: name of database
-     * @param string $login:    username
+     * @param string $dbname:   name of database
+     * @param string $username: username
      * @param string $password: password
      * @param string $names:    charset (optional, default: utf8)
      */
     function __construct($server, $dbname, $username, $password, $names="utf8") {
+        parent::__construct( "db" );
         try {
             $this->dbh = new PDO(
                 "mysql:host=$server;dbname=$dbname;charset=$names",
-                $username,
-                $password,
-                array(
-                    PDO::ATTR_PERSISTENT => true,
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-                )
+                $username, $password, array( PDO::ATTR_PERSISTENT => true )
             );
             $this->dbh->setAttribute( PDO::ATTR_ERRMODE,
                 PDO::ERRMODE_EXCEPTION );
         }
         catch(PDOException $e)
         {
-            echo "Connection failed: " . $e->getMessage();
+            $this->addError( "Connection failed: ".$e->getMessage() );
         }
     }
 
@@ -49,9 +46,14 @@ class BaseDBMapper {
      * @return an array with all row entries or false if no entry was selected
      */
     function selectByFk( $table, $fk, $id ) {
-        $stmt = $this->dbh->prepare( "SELECT * FROM $table WHERE $fk = :fk" );
-        $stmt->execute( array( ':fk' => $id ) );
-        return $stmt->fetchAll( PDO::FETCH_ASSOC );
+        try {
+            $stmt = $this->dbh->prepare( "SELECT * FROM $table WHERE $fk = :fk" );
+            $stmt->execute( array( ':fk' => $id ) );
+            return $stmt->fetchAll( PDO::FETCH_ASSOC );
+        }
+        catch(PDOException $e) {
+            $this->addDebug( "BaseDbMapper::selectByFk: ".$e->getMessage() );
+        }
     }
 
     /**
@@ -62,11 +64,14 @@ class BaseDBMapper {
      * @return an array with all row entries or false if no entry was selected
      */
     function selectByUid( $table, $id ) {
-        $stmt = $this->dbh->prepare( "SELECT * FROM $table WHERE id = :id" );
-        $stmt->execute( array( ':id' => $id ) );
-        $res = $stmt->fetch( PDO::FETCH_ASSOC );
-        /* print_r( $res ); */
-        return $res;
+        try {
+            $stmt = $this->dbh->prepare( "SELECT * FROM $table WHERE id = :id" );
+            $stmt->execute( array( ':id' => $id ) );
+            return $stmt->fetch( PDO::FETCH_ASSOC );
+        }
+        catch(PDOException $e) {
+            $this->addDebug( "BaseDbMapper::selectByUid: ".$e->getMessage() );
+        }
     }
 
     /**
@@ -78,30 +83,37 @@ class BaseDBMapper {
      * @return an array with all entries of the row or false if no entry was selected
      */
     function selectByUidJoin( $table, $id ) {
-        $mainTable = $this->selectByUid( $table, $id );
-        $tableNb = 0;
-        $join = "";
-        $sql = "SELECT ";
-        if( $mainTable ) {
-            foreach( $mainTable as $i => $value ) {
-                $sql .= "t0.".$i.", ";
-                if( substr( $i, 0, 3 ) == "id_" ) {
-                    $tableNb++;
-                    $arr = explode( '_', $i );
-                    $tableName = $arr[1];
-                    $nameSuffix = "";
-                    if ( $arr[2] != NULL ) $nameSuffix = "_".$arr[2];
-                    $join .= " LEFT JOIN ".rtrim( $tableName, "0..9" )." t".$tableNb." ON t0.".$i." = t".$tableNb.".id";
-                    $sql .= "t".$tableNb.".name name_".$tableName.$nameSuffix.", ";
+        try {
+            $mainTable = $this->selectByUid( $table, $id );
+            $tableNb = 0;
+            $join = "";
+            $sql = "SELECT ";
+            if( $mainTable ) {
+                foreach( $mainTable as $i => $value ) {
+                    $sql .= "t0.".$i.", ";
+                    if( substr( $i, 0, 3 ) == "id_" ) {
+                        $tableNb++;
+                        $arr = explode( '_', $i );
+                        $tableName = $arr[1];
+                        $nameSuffix = "";
+                        if ( $arr[2] != NULL ) $nameSuffix = "_".$arr[2];
+                        $join .= " LEFT JOIN ".rtrim( $tableName, "0..9" )." t"
+                            .$tableNb." ON t0.".$i." = t".$tableNb.".id";
+                        $sql .= "t".$tableNb.".name name_".$tableName
+                            .$nameSuffix.", ";
+                    }
                 }
+                $sql = rtrim( $sql, ", " );
+                $sql .= " FROM $table t0$join WHERE t0.id = :id";
+                $stmt = $this->dbh->prepare( $sql );
+                $stmt->execute( array( ':id' => $id ) );
+                return $stmt->fetchAll( PDO::FETCH_ASSOC );
             }
-            $sql = rtrim( $sql, ", " );
-            $sql .= " FROM $table t0$join WHERE t0.id = :id";
-            $stmt = $this->dbh->prepare( $sql );
-            $stmt->execute( array( ':id' => $id ) );
-            return $stmt->fetchAll( PDO::FETCH_ASSOC );
         }
-        return false;
+        catch(PDOException $e) {
+            $this->addDebug(
+                "BaseDbMapper::selectByUidJoin: ".$e->getMessage() );
+        }
     }
 
     /**
@@ -135,48 +147,63 @@ class BaseDBMapper {
      * Insert values into db table
      *
      * @param string $table:    the name of the db table
-     * @param array $entries:   an associative array of db entries e.g. $["colname1"] = "blabla" or
-     *                          an array with db entries eg $[0] = "blabla"
+     * @param array $entries:   an associative array of db entries
+     *                          e.g. $["colname1"] = "blabla"
      * @return inserted id if succeded
      */
     function insert($table, $entries) {
-        $data = array();
-        $columnStr = "";
-        $valueStr = "";
-        foreach ($entries as $i => $value) {
-            $columnStr .= $i.", ";
-            $id = ":".$i;
-            $valueStr .= $id.", ";
-            $data[$id] = $value;
+        try {
+            $data = array();
+            $columnStr = "";
+            $valueStr = "";
+            foreach ($entries as $i => $value) {
+                $columnStr .= $i.", ";
+                $id = ":".$i;
+                $valueStr .= $id.", ";
+                $data[$id] = $value;
+            }
+            $columnStr = rtrim($columnStr, ", ");
+            $valueStr = rtrim($valueStr, ", ");
+            $sql = "INSERT INTO ".$table
+                ." (".$columnStr.") VALUES(".$valueStr.")";
+            $stmt = $this->dbh->prepare( $sql );
+            $stmt->execute( $data );
+            return $this->dbh->lastInsertId();
         }
-        $columnStr = rtrim($columnStr, ", ");
-        $valueStr = rtrim($valueStr, ", ");
-        $sql = "INSERT INTO ".$table." (".$columnStr.") VALUES(".$valueStr.")";
-        $stmt = $this->dbh->prepare( $sql );
-        $stmt->execute( $data );
-        return $this->dbh->lastInsertId();
+        catch(PDOException $e) {
+            $this->addDebug(
+                "BaseDbMapper::insert: ".$e->getMessage() );
+        }
     }
 
     /**
      * Update values in db defined by id
      *
      * @param string $table:    the name of the db table
-     * @param array $entries:   an associative array of db entries e.g. $["colname1"] = "blabla"
+     * @param array $entries:   an associative array of db entries
+     *                           e.g. $["colname1"] = "blabla"
      * @param int $id:          the unique id of the row to be selected
      * @return true if succeded
      */
     function updateByUid($table, $entries, $id) {
-        $data = array( ':hid' => $id );
-        $insertStr = "";
-        foreach ($entries as $i => $value) {
-            $id = ":".$i;
-            $insertStr .= $i."=".$id.", ";
-            $data[$id] = $value;
+        try {
+            $data = array( ':hid' => $id );
+            $insertStr = "";
+            foreach ($entries as $i => $value) {
+                $id = ":".$i;
+                $insertStr .= $i."=".$id.", ";
+                $data[$id] = $value;
+            }
+            $insertStr = rtrim($insertStr, ", ");
+            $sql = "UPDATE ".$table." SET ".$insertStr." WHERE id=:hid";
+            $stmt = $this->dbh->prepare( $sql );
+            $stmt->execute( $data );
+            return true;
         }
-        $insertStr = rtrim($insertStr, ", ");
-        $sql = "UPDATE ".$table." SET ".$insertStr." WHERE id=:hid";
-        $stmt = $this->dbh->prepare( $sql );
-        $stmt->execute( $data );
+        catch(PDOException $e) {
+            $this->addDebug(
+                "BaseDbMapper::updateByUid: ".$e->getMessage() );
+        }
     }
 }
 

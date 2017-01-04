@@ -11,7 +11,8 @@
     foreach( $res as $vt ) {
     print '
         <tr>
-            <td class="field-edit">'.$vt['vorteil'].'</td>
+            <td id="held_vorteil-vorteil-'.$vt['id_vorteil']
+                .'" class="field-edit field-type-text">'.$vt['vorteil'].'</td>
         </tr>
 ';
     }

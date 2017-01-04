@@ -21,9 +21,12 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td class="'.$css.'">'.$wert.'</td>
-            <td class="field-edit">'.$sign.$attr['modifikator'].'</td>
-            <td class="field-edit">'.$attr['start'].'</td>
+            <td id="held_eigenschaft-wert-'.$attr['id'].'" class="'.$css.'">'
+                .$wert.'</td>
+            <td id="held_eigenschaft-modifikator-'.$attr['id']
+                .'" class="field-edit">'.$sign.$attr['modifikator'].'</td>
+            <td id="held_eigenschaft-start-'.$attr['id']
+                .'" class="field-edit">'.$attr['start'].'</td>
         </tr>
 ';
     }

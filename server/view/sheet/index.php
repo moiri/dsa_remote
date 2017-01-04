@@ -1,8 +1,4 @@
 <?php
-    require_once('server/class/sheetDbMapper.php');
-    require_once('server/secure/globals.php');
-    $sheet = new SheetDbMapper(DBSERVER,DBNAME,DBUSER,DBPASSWORD);
-
     if( isset( $_FILES['uploadfile']['tmp_name'] ) )
         include("parseXml.php");
     if (!isset($_GET['hero'])) include("heroes.php");

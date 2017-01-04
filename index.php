@@ -4,6 +4,7 @@ require_once("server/class/login.php");
 require_once("server/class/registration.php");
 $login = new Login();
 $registration = new Registration();
+
 $mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
 ?>
 
@@ -24,7 +25,8 @@ $mypage = (isset($_GET['page'])) ? $_GET['page'] : '0';
 <?php
 switch ($mypage) {
     case '2':
-        include("server/head/sheet.php");
+        if($login->isUserLoggedIn())
+            include("server/head/sheet.php");
         break;
     case '3':
         include("server/head/portal.php");

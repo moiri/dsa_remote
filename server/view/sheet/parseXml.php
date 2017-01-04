@@ -1,12 +1,4 @@
-<?php 
-/**
- * this script loads a view and returns html code
- */
-require_once('server/class/sheetDbMapper.php');
-require_once('server/class/login.php');
-require_once('server/secure/globals.php');
-$sheet2 = new SheetDbMapper(DBSERVER,DBNAME,DBUSER2,DBPASSWORD2);
-
+<?php
 $xml = simplexml_load_file( $_FILES['uploadfile']['tmp_name'] );
 
 if( !isset($xml->held['name']) ) die("OOPS");
@@ -62,6 +54,14 @@ foreach( $xml->held as $held ) {
         }
         $sheet2->insert( "held_".$table, $data );
     }
+    $data = array(
+        'id_held' => $hero_id,
+        'id_eigenschaft' => 9,
+        'wert' => 8,
+        'modifikator' => 0,
+        'start' => 8
+    );
+    $sheet2->insert( "held_eigenschaft", $data );
     foreach( $held->talentliste->talent as $talent ) {
         $sheet2->insert( "held_talent", array(
             'id_held' => $hero_id,

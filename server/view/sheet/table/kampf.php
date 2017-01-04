@@ -16,9 +16,11 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td class="text-muted small text-right field-edit-hide">'.$attr['wert_def'].'</td>
+            <td class="text-muted small text-right field-edit-hide">'
+                .$attr['wert_def'].'</td>
             <td>'.$wert.'</td>
-            <td style="display:none" class="field-edit field-edit-show">'
+            <td id="held_kampf-modifikator-'.$attr['id']
+                .'" style="display:none" class="field-edit field-edit-show">'
                 .$attr['modifikator'].'</td>
         </tr>
 ';

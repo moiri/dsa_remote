@@ -2,19 +2,25 @@
     <thead>
         <tr>
             <th style="visibility:hidden">Basiswert</th>
-            <th class="small"></th>
+            <th class="small field-edit-hide"></th>
             <th class="small">Aktuell</th>
             <th class="small">Mod</th>
             <th class="small">Start</th>
             <th class="small">Kauf</th>
             <th class="small">Max Kauf</th>
+            <th style="display:none" class="small field-edit-show">Aktiv</th>
         </tr>
     </thead>
     <tbody>
 <?php
     $res = $sheet->getBaseByHeroId($_SESSION['hero_id']);
     foreach( $res as $attr ) {
-        if( $attr['modifikator'] == null and $attr['kauf'] == null ) continue;
+        $css = "";
+        $checked = "checked";
+        if( $attr['aktiv'] != 1 ) {
+            $checked = "";
+            $css = 'style="display:none" class="field-edit-show"';
+        }
         $sign = ( $attr['modifikator'] > 0 ) ? '+' : '';
         $start = $sheet->parseFormula( $_SESSION['hero_id'],
             $attr['wert_def'] );
@@ -22,16 +28,22 @@
         $kauf_max = $sheet->parseFormula( $_SESSION['hero_id'],
             $attr['max_kauf_def'] );
         print '
-        <tr>
+        <tr '.$css.'>
             <th>'.$attr['name'].'</th>
-            <td class="text-muted small text-right">'.$attr['wert_def'].'</td>
+            <td class="text-muted small text-right field-edit-hide">'
+                .$attr['wert_def'].'</td>
             <td>'.$wert.'</td>
-            <td class="field-edit">'.$sign.$attr['modifikator'].'</td>
+            <td id="held_basis-modifikator-'.$attr['id']
+                .'" class="field-edit">'.$sign.$attr['modifikator'].'</td>
             <td>'.$start.'</td>
-            <td class="field-edit field-lvl">'.$attr['kauf'].'</td>
+            <td id="held_basis-kauf-'.$attr['id']
+                .'" class="field-edit field-lvl">'.$attr['kauf'].'</td>
             <td>'.$kauf_max
                 .'<span class="text-muted small pull-right">'
                 .$attr['max_kauf_def'].'</span></td>
+            <td id="held_basis-aktiv-'.$attr['id'].'" style="display:none" '
+                .'class="field-edit field-edit-show field-type-checkbox">'
+                .$attr['aktiv'].'</td>
         </tr>
 ';
     }

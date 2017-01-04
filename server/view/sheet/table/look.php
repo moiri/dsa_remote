@@ -11,43 +11,43 @@
     print '
         <tr>
             <th>Titel</th>
-            <td id="held-titel" class="field-edit">'.$res['titel'].'</td>
+            <td id="held-titel" class="field-edit field-type-text">'.$res['titel'].'</td>
         </tr>
         <tr>
             <th>Rasse</th>
-            <td id="held-rasse" class="field-edit">'.$res['rasse'].'</td>
+            <td id="held-rasse" class="field-edit field-type-text">'.$res['rasse'].'</td>
         </tr>
         <tr>
             <th>Kultur</th>
-            <td id="held-kultur" class="field-edit">'.$res['kultur'].'</td>
+            <td id="held-kultur" class="field-edit field-type-text">'.$res['kultur'].'</td>
         </tr>
         <tr>
             <th>Profession</th>
-            <td id="held-profession" class="field-edit">'.$res['profession'].'</td>
+            <td id="held-profession" class="field-edit field-type-text">'.$res['profession'].'</td>
         </tr>
         <tr>
             <th>Geburtsdatum</th>
-            <td id="held-geburtsdatum" class="field-edit">'.$res['geburtsdatum'].'</td>
+            <td id="held-geburtsdatum" class="field-edit field-type-text">'.$res['geburtsdatum'].'</td>
         </tr>
         <tr>
             <th>Haarfarbe</th>
-            <td id="held-haarfarbe" class="field-edit">'.$res['haarfarbe'].'</td>
+            <td id="held-haarfarbe" class="field-edit field-type-text">'.$res['haarfarbe'].'</td>
         </tr>
         <tr>
             <th>Augenfarbe</th>
-            <td id="held-augenfarbe" class="field-edit">'.$res['augenfarbe'].'</td>
+            <td id="held-augenfarbe" class="field-edit field-type-text">'.$res['augenfarbe'].'</td>
         </tr>
         <tr>
             <th>Grösse</th>
-            <td id="held-goesse" class="field-edit">'.$res['groesse'].'</td>
+            <td id="held-goesse" class="field-edit field-type-text">'.$res['groesse'].'</td>
         </tr>
         <tr>
             <th>Gewicht</th>
-            <td id="held-gewicht" class="field-edit">'.$res['gewicht'].'</td>
+            <td id="held-gewicht" class="field-edit field-type-text">'.$res['gewicht'].'</td>
         </tr>
         <tr>
             <th>Geschlecht</th>
-            <td id="held-geschlecht" class="field-edit">'.$res['geschlecht'].'</td>
+            <td id="held-geschlecht" class="field-edit field-type-text">'.$res['geschlecht'].'</td>
         </tr>
 ';
 ?>

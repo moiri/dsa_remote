@@ -25,7 +25,8 @@
                 .$attr['es1'].' / '
                 .$attr['es2'].' / '
                 .$attr['es3'].'</td>
-            <td class="field-edit field-lvl">'.$attr['wert'].'</td>
+            <td id="held_zauber-wert-'.$attr['id']
+                .'" class="field-edit field-lvl">'.$attr['wert'].'</td>
             <td class="field-edit"></td>
         </tr>
 ';

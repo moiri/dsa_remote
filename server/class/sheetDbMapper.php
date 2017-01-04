@@ -79,7 +79,7 @@ class SheetDbMapper extends BaseDbMapper {
     function getBaseByHeroId( $id ) {
         $retValue = false;
         $sql = "SELECT b.id, b.name, b.wert_def, b.max_kauf_def,
-            hb.modifikator, hb.kauf
+            hb.modifikator, hb.kauf, hb.aktiv
             FROM basis AS b
             LEFT JOIN held_basis AS hb ON b.id = hb.id_basis
             AND hb.id_held = :id";
@@ -117,7 +117,7 @@ class SheetDbMapper extends BaseDbMapper {
             $grp_str = "WHERE t.id_talentgruppe = :tid ";
             $data[':tid'] = $tid;
         }
-        $sql = "SELECT t.name, t.eBE, ht.wert, e1.short_name AS es1, "
+        $sql = "SELECT t.id, t.name, t.eBE, ht.wert, e1.short_name AS es1, "
             ."e2.short_name AS es2, e3.short_name AS es3 FROM talent AS t "
             ."LEFT JOIN held_talent AS ht ON ht.id_talent = t.id "
             ."AND ht.id_held = :id "
@@ -134,8 +134,9 @@ class SheetDbMapper extends BaseDbMapper {
     function getZauberByHeroId( $id ) {
         $retValue = false;
         $grp_str = "";
-        $sql = "SELECT z.name, hz.wert, hz.hauszauber, e1.short_name AS es1, "
-            ."e2.short_name AS es2, e3.short_name AS es3 FROM zauber AS z "
+        $sql = "SELECT z.id, z.name, hz.wert, hz.hauszauber, "
+            ."e1.short_name AS es1, e2.short_name AS es2, e3.short_name AS es3 "
+            ."FROM zauber AS z "
             ."LEFT JOIN held_zauber AS hz ON hz.id_zauber = z.id "
             ."AND hz.id_held = :id "
             ."LEFT JOIN eigenschaft AS e1 ON z.id_eigenschaft1 = e1.id "
@@ -192,6 +193,39 @@ class SheetDbMapper extends BaseDbMapper {
             $res = $this->getHeroEigenschaftByShort( $hid, $formula );
         }
         return round( $mul * $res / $div );
+    }
+
+    /**
+     * Update values in db defined by hero id and a foreign key deduced by the
+     * table name due to naming conventions
+     *
+     * @param string $table:    the name of the db table
+     * @param array $entries:   an associative array of db entries
+     *                           e.g. $["colname1"] = "blabla"
+     * @param int $id:          the hero id of the row to be selected
+     * @param int $fk:          the foreign key id of the row to be selected
+     * @return true if succeded
+     */
+    function updateByHidFk($table, $entries, $id, $fk) {
+        try {
+            $data = array( ':hid' => $id, ':fk' => $fk );
+            $fk_name = str_replace( "held_", "id_", $table );
+            $insertStr = "";
+            foreach ($entries as $i => $value) {
+                $id = ":".$i;
+                $insertStr .= $i."=".$id.", ";
+                $data[$id] = $value;
+            }
+            $insertStr = rtrim($insertStr, ", ");
+            $sql = "UPDATE ".$table." SET ".$insertStr
+                ." WHERE id_held=:hid AND ".$fk_name."=:fk";
+            $stmt = $this->dbh->prepare( $sql );
+            $stmt->execute( $data );
+        }
+        catch(PDOException $e) {
+            $this->addDebug(
+                "BaseDbMapper::updateByHidFk: ".$e->getMessage() );
+        }
     }
 }
 

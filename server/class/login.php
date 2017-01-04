@@ -1,4 +1,5 @@
 <?php
+require_once('logger.php');
 /**
  * A simple, clean and secure PHP Login Script / MINIMAL VERSION
  * For more versions (one-file, advanced, framework-like) visit http://www.php-login.net
@@ -14,20 +15,12 @@
  * Class login
  * handles the user's login and logout process
  */
-class Login
+class Login extends Logger
 {
     /**
      * @var object The database connection
      */
     private $db_connection = null;
-    /**
-     * @var array Collection of error messages
-     */
-    public $errors = array();
-    /**
-     * @var array Collection of success / neutral messages
-     */
-    public $messages = array();
 
     /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
@@ -56,9 +49,9 @@ class Login
     {
         // check login form contents
         if (empty($_POST['user_name'])) {
-            $this->errors[] = "Username field was empty.";
+            $this->addError( "Username field was empty." );
         } elseif (empty($_POST['user_password'])) {
-            $this->errors[] = "Password field was empty.";
+            $this->addError( "Password field was empty." );
         } elseif (!empty($_POST['user_name']) && !empty($_POST['user_password'])) {
 
             // create a database connection, using the constants from config/db.php (which we loaded in index.php)
@@ -66,7 +59,7 @@ class Login
 
             // change character set to utf8 and check it
             if (!$this->db_connection->set_charset("utf8")) {
-                $this->errors[] = $this->db_connection->error;
+                $this->addError( $this->db_connection->error );
             }
 
             // if no connection errors (= working database connection)
@@ -99,13 +92,13 @@ class Login
                         $_SESSION['user_login_status'] = 1;
 
                     } else {
-                        $this->errors[] = "Wrong password. Try again.";
+                        $this->addError( "Wrong password. Try again." );
                     }
                 } else {
-                    $this->errors[] = "This user does not exist.";
+                    $this->addError( "This user does not exist." );
                 }
             } else {
-                $this->errors[] = "Database connection problem.";
+                $this->addError( "Database connection problem." );
             }
         }
     }
@@ -119,7 +112,7 @@ class Login
         $_SESSION = array();
         session_destroy();
         // return a little feeedback message
-        $this->messages[] = "You have been logged out.";
+        $this->addSuccess( "You have been logged out." );
 
     }
 

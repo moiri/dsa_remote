@@ -27,7 +27,8 @@ $(document).ready(function() {
             var item = {};
             item['table'] = id[0];
             item['col'] = id[1];
-            if( item[2] != undefined ) item['id'] = id[2];
+            if( id[2] != undefined ) item['id'] = id[2];
+            if( $(this).is(':checked' ) ) $(this).val( 1 );
             item['val'] = $(this).val();
             j_data.push( item );
         });
@@ -116,8 +117,14 @@ function change_to_lvl( $elem ) {
 }
 
 function change_to_input( $elem ) {
-    var $input = $('<input type="text" class="form-control input-sm">');
+    var $input = $('<input type="number" class="form-control input-sm">');
+    if( $elem.hasClass('field-type-text') ) $input.attr('type', 'text');
     $input.val( $elem.text() );
+    if( $elem.hasClass('field-type-checkbox') ) {
+        $input.attr('type', 'checkbox');
+        if( $input.val() == '1' ) $input.prop('checked', true);
+        $input.val( 0 );
+    }
     $elem.html( $input );
     $input.on( 'input', function() {
         $input.addClass('changed');

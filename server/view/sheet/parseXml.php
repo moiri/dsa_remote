@@ -62,6 +62,10 @@ foreach( $xml->held as $held ) {
         'start' => 8
     );
     $sheet2->insert( "held_eigenschaft", $data );
+    $sheet2->updateByHidFk( 'held_basis', array( 'aktiv' => 1 ), $hero_id, 1 );
+    $sheet2->updateByHidFk( 'held_basis', array( 'aktiv' => 1 ), $hero_id, 2 );
+    $sheet2->updateByHidFk( 'held_basis', array( 'aktiv' => 1 ), $hero_id, 3 );
+    $sheet2->updateByHidFk( 'held_basis', array( 'aktiv' => 1 ), $hero_id, 4 );
     foreach( $held->talentliste->talent as $talent ) {
         $sheet2->insert( "held_talent", array(
             'id_held' => $hero_id,

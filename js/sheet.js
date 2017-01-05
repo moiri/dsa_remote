@@ -1,9 +1,9 @@
 $(document).ready(function() {
-    var hero_attr = [];
-    init_hero_attr( hero_attr );
+    var hero_attr = {};
+    init_hero_attr( hero_attr, false );
     // register event when a hero attr is changed
     $('td[id|="hero_attr"]').bind('attrchanged', function() {
-        update_hero_attr( hero_attr, $(this) );
+        update_hero_attr( hero_attr, $(this), true );
         console.log( hero_attr );
     });
     $('button.btn-lvl').click( function () {
@@ -31,8 +31,12 @@ $(document).ready(function() {
         var $table = $panel.children('table.table');
         var $button = $(this).parent();
         var j_data = [];
-        $.each( $panel.find('.field-edit > input.changed'), function() {
-            var id = $(this).parent().attr('id').split('-');
+        if( $panel.find('.field-edit > div.has-error').length > 0 ) {
+            shake( $panel.parent() );
+            return;
+        }
+        $.each( $panel.find('.field-edit > div.has-success > input'), function() {
+            var id = $(this).parent().parent().attr('id').split('-');
             var item = {};
             item['table'] = id[0];
             item['col'] = id[1];
@@ -56,8 +60,6 @@ $(document).ready(function() {
                     $button.hide();
                 }) );
         }
-
-        // shake( $panel.parent() );
     });
     $('button.btn-cancel').click( function () {
         var $panel = $(this).closest('div.panel-body');
@@ -68,21 +70,29 @@ $(document).ready(function() {
                 $table.replaceWith( data );
                 $button.prev().show();
                 $button.hide();
-                init_hero_attr( hero_attr );
+                init_hero_attr( hero_attr, true );
             });
     });
 });
 
-function init_hero_attr( hero_attr ) {
+function init_hero_attr( hero_attr, propagate ) {
     $('td[id|="hero_attr"]').each( function() {
-        update_hero_attr( hero_attr, $(this) );
+        update_hero_attr( hero_attr, $(this), false );
     });
-    console.log( hero_attr );
+    if( propagate ) post_hero_attr( hero_attr, 'all' );
 }
 
-function update_hero_attr( hero_attr, $elem ) {
+function update_hero_attr( hero_attr, $elem, propagate ) {
     var id = $elem.attr('id').split('-');
     hero_attr[id[1]] = $elem.text();
+    if( propagate ) post_hero_attr( hero_attr, id[1] );
+}
+function post_hero_attr( hero_attr, id ) {
+    if( id === undefined ) id = 'all';
+    $.post( 'php/update_view.php?short=' + id, { 'eig': hero_attr } )
+        .done( function ( data ) {
+            console.log( JSON.parse(data) );
+        });
 }
 
 function getView( id, cb ) {
@@ -138,31 +148,40 @@ function change_to_lvl( $elem ) {
     $elem.prepend( '<span class="field-val">' + val + '</span> ' );
 }
 
+var __old_val;
+
 function change_to_input( $elem ) {
+    var $div = $('<div class="form-gruop"></div>');
     var $input = $('<input type="number" class="form-control input-sm">');
     if( $elem.hasClass('field-type-text') ) $input.attr('type', 'text');
     $input.val( $elem.text() );
+    $input.data( 'old_val', $input.val() );
     if( $elem.hasClass('field-type-checkbox') ) {
         $input.attr('type', 'checkbox');
         if( $input.val() == '1' ) $input.prop('checked', true);
         $input.val( 0 );
     }
     $input.addClass( $elem.attr('class') );
-    $elem.html( $input );
+    $div.append( $input );
+    $elem.html( $div );
     $input.change( function() {
         var $res = $elem.prevAll('td.field-res').first();
-        var $sums = null;
+        var old_val = parseInt( $(this).data( 'old_val' ) );
         var sum = 0;
+        $(this).data( 'old_val', $(this).val() );
+        if( ( $(this).attr('type') === 'number' )
+                && isNaN( parseInt( $(this).val() ) ) ) {
+            $(this).parent().addClass('has-error');
+        }
+        else {
+            $(this).parent().removeClass('has-error');
+        }
         if( $(this).hasClass('field-sum') ) {
-            $sums = $elem.parent().children('td.field-sum');
-            $sums.each( function() {
-                var $sum = $(this).children('input');
-                if( $sum.length === 0 ) sum += parseInt( $(this).text() );
-                else sum += parseInt( $sum.val() );
-            });
+            sum = parseInt( $res.text() ) + parseInt( $(this).val() ) - old_val;
             $res.text( sum );
             $res.trigger('attrchanged');
         }
-        $input.addClass('changed');
+        $(this).parent().addClass('has-success');
+        // $input.addClass('changed');
     });
 }

@@ -24,7 +24,7 @@ $sheet = new SheetDbMapper(DBSERVER,DBNAME,DBUSER,DBPASSWORD);
 $res['error'] = false;
 $data = array();
 $eig = $_POST['eig'];
-switch( $_GET['calc'] ) {
+switch( $_GET['short'] ) {
     case 'MU':
         $data['AU'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'AU', $eig );
         $data['AT'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'AT', $eig );
@@ -63,6 +63,16 @@ switch( $_GET['calc'] ) {
         $data['AT'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'AT', $eig );
         $data['PA'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'PA', $eig );
         $data['FK'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'FK', $eig );
+        break;
+    case 'all':
+        $data['LE'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'LE', $eig );
+        $data['AU'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'AU', $eig );
+        $data['AE'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'AE', $eig );
+        $data['MR'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'MR', $eig );
+        $data['AT'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'AT', $eig );
+        $data['PA'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'PA', $eig );
+        $data['FK'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'FK', $eig );
+        $data['INI'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'INI', $eig );
         break;
 }
 

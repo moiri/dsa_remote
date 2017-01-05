@@ -342,8 +342,9 @@ class SheetDbMapper extends BaseDbMapper {
         if( $eig == null )
             $eig = $this->getAttrShortArrayByHeroId( $hid );
         $kid = $this->getCalcValId( $val );
-        $kampf = $this->getCombatByHeroId( $hid, $kid['id'] );
-        return $this->calcValue( $eig, $val ) + $kampf[0]['modifikator'];
+        /* $kampf = $this->getCombatByHeroId( $hid, $kid['id'] ); */
+        /* return $this->calcValue( $eig, $val ) + $kampf[0]['modifikator']; */
+        return $this->calcValue( $eig, $val );
     }
 
     /**

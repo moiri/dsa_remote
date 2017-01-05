@@ -19,9 +19,9 @@
             <th>'.$attr['name'].'</th>
             <td class="text-muted small text-right field-edit-hide">'
                 .$attr['wert_def'].'</td>
-            <td>'.$wert.'</td>
+            <td class="field-res">'.$wert.'</td>
             <td id="held_kampf-modifikator-'.$attr['id']
-                .'" style="display:none" class="field-edit field-edit-show">'
+                .'" style="display:none" class="field-edit field-sum">'
                 .$attr['modifikator'].'</td>
         </tr>
 ';

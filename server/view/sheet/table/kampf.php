@@ -10,8 +10,9 @@
     <tbody>
 <?php
     $res = $sheet->getCombatByHeroId($_SESSION['hero_id']);
+    $eig = $sheet->getAttrShortArrayByHeroId( $_SESSION['hero_id'] );
     foreach( $res as $attr ) {
-        $wert = $sheet->parseFormula( $_SESSION['hero_id'], $attr['wert_def'] );
+        $wert = $sheet->parseFormula( $eig, $attr['wert_def'] );
         $wert += $attr['modifikator'];
         print '
         <tr>

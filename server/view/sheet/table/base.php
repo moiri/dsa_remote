@@ -14,6 +14,7 @@
     <tbody>
 <?php
     $res = $sheet->getBaseByHeroId($_SESSION['hero_id']);
+    $eig = $sheet->getAttrShortArrayByHeroId( $_SESSION['hero_id'] );
     foreach( $res as $attr ) {
         $css = "";
         $checked = "checked";
@@ -22,11 +23,9 @@
             $css = 'style="display:none" class="field-edit-show"';
         }
         $sign = ( $attr['modifikator'] > 0 ) ? '+' : '';
-        $start = $sheet->parseFormula( $_SESSION['hero_id'],
-            $attr['wert_def'] );
+        $start = $sheet->parseFormula( $eig, $attr['wert_def'] );
         $wert = $start + $attr['modifikator'] + $attr['kauf'];
-        $kauf_max = $sheet->parseFormula( $_SESSION['hero_id'],
-            $attr['max_kauf_def'] );
+        $kauf_max = $sheet->parseFormula( $eig, $attr['max_kauf_def'] );
         print '
         <tr '.$css.'>
             <th>'.$attr['name'].'</th>

@@ -1,7 +1,15 @@
 $(document).ready(function() {
+    var hero_attr = [];
+    $('td[id|="hero_attr"]').each( function() {
+        var id = $(this).attr('id').split('-');
+        hero_attr[id[1]] = $(this).text();
+    });
+    console.log( hero_attr );
     $('button.btn-lvl').click( function () {
         var $panel = $(this).closest('div.panel-body');
         var $button = $(this).parent();
+        $panel.find('.field-lvl, .field-lvl-show').show();
+        $panel.find('.field-lvl-hide').hide();
         $.each( $panel.find('td.field-lvl'), function( idx, value ) {
             change_to_lvl( $(this) );
         });
@@ -10,7 +18,7 @@ $(document).ready(function() {
     $('button.btn-edit').click( function () {
         var $panel = $(this).closest('div.panel-body');
         var $button = $(this).parent();
-        $panel.find('.field-edit-show').show();
+        $panel.find('.field-edit, .field-edit-show').show();
         $panel.find('.field-edit-hide').hide();
         $.each( $panel.find('td.field-edit'), function( idx, value ) {
             change_to_input( $(this) );
@@ -113,7 +121,7 @@ function change_to_lvl( $elem ) {
     $div.append( $button_minus );
 
     $elem.html( $div )
-    $elem.append( ' <span class="field-val">' + val + '</span>' );
+    $elem.prepend( '<span class="field-val">' + val + '</span> ' );
 }
 
 function change_to_input( $elem ) {

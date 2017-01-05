@@ -10,7 +10,7 @@ $(document).ready(function() {
         $.each( $panel.find('td.field-lvl'), function( idx, value ) {
             change_to_lvl( $(this) );
         });
-        toggle_button( $button );
+        toggle_button_confirm( $button );
     });
     $('button.btn-edit').click( function () {
         var $panel = $(this).closest('div.panel-body');
@@ -20,55 +20,44 @@ $(document).ready(function() {
         $.each( $panel.find('td.field-edit'), function( idx, value ) {
             change_to_input( $(this) );
         });
-        toggle_button( $button );
+        toggle_button_confirm( $button );
     });
     $('button.btn-ok').click( function () {
         var $panel = $(this).closest('div.panel-body');
         var $table = $panel.children('table.table');
         var $button = $(this).parent();
         var j_data = [];
+        // refuse if there are errors
         if( $panel.find('.field-edit > div.has-error').length > 0 ) {
             shake( $panel.parent() );
             return;
         }
+        // add successfully changed edit fields to the array
         $.each( $panel.find('.field-edit > div.has-success > input'), function() {
             var id = $(this).parent().parent().attr('id').split('-');
-            var item = {};
-            item['table'] = id[0];
-            item['col'] = id[1];
-            if( id[2] != undefined ) item['id'] = id[2];
-            if( $(this).is(':checked' ) ) $(this).val( 1 );
-            item['val'] = $(this).val();
-            j_data.push( item );
+            j_data.push( create_hero_attr( id, $(this) ) );
+        });
+        // add successfully changed lvl fields to the array
+        $.each( $panel.find('.field-lvl > div.has-success'), function() {
+            var id = $(this).parent().attr('id').split('-');
+            j_data.push( create_hero_attr( id, $(this) ) );
         });
         if( j_data.length === 0 ) {
-            getView( $table.attr('id'), function( data ) {
-                $table.replaceWith( data );
-                $button.prev().show();
-                $button.hide();
-            });
+            // nothing to change
+            ajax_get_view( $table, $button, hero_attr );
         }
         else {
+            // update changes in the db
             $.post( 'php/update_db.php', { 'db': j_data } )
-                .done( getView( $table.attr('id'), function( data ) {
-                    $table.replaceWith( data );
-                    $button.prev().show();
-                    $button.hide();
-                }) );
+                .done( function( data ) {
+                    ajax_get_view( $table, $button, hero_attr );
+                });
         }
     });
     $('button.btn-cancel').click( function () {
-        var $panel = $(this).closest('div.panel-body');
-        var $table = $panel.children('table.table');
+        var $table = $(this).closest('div.panel-body').children('table.table');
         var $button = $(this).parent();
-        $.ajax( 'php/get_view.php?path=' + $table.attr('id') )
-            .done( function( data ) {
-                $table.replaceWith( data );
-                $button.prev().show();
-                $button.hide();
-                init_hero_attr( hero_attr, true );
-                bind_hero_attr( hero_attr );
-            });
+        ajax_get_view( $table, $button, hero_attr );
     });
 });
 
@@ -81,20 +70,38 @@ function bind_hero_attr( hero_attr ) {
     });
 }
 
+function create_hero_attr( id, $elem ) {
+    var item = {};
+    item['table'] = id[0];
+    item['col'] = id[1];
+    if( id[2] != undefined ) item['id'] = id[2];
+    if( $elem.is(':checked' ) ) $elem.val( 1 );
+    item['val'] = $elem.val();
+    if( item['val'] === '' ) item['val'] = $elem.text();
+    return item;
+}
+
 function init_hero_attr( hero_attr, propagate ) {
     $('td[id|="hero_attr"]').each( function() {
         update_hero_attr( hero_attr, $(this), false );
     });
-    if( propagate ) post_hero_attr( hero_attr, 'all' );
+    if( propagate ) ajax_get_calc_vals( hero_attr, 'all' );
 }
 
 function update_hero_attr( hero_attr, $elem, propagate ) {
     var id = $elem.attr('id').split('-');
     hero_attr[id[1]] = $elem.text();
-    if( propagate ) post_hero_attr( hero_attr, id[1] );
+    if( propagate ) ajax_get_calc_vals( hero_attr, id[1] );
 }
 
-function post_hero_attr( hero_attr, attr_str ) {
+function update_field( $elem, s_str, d_str ) {
+    var t_int = parseInt( $elem.text() );
+    var s_int = parseInt( s_str );
+    var d_int = parseInt( d_str );
+    $elem.text( t_int + s_int - d_int );
+}
+
+function ajax_get_calc_vals( hero_attr, attr_str ) {
     $.ajax({
         type: "POST",
         url: 'php/update_view.php?short=' + attr_str,
@@ -102,59 +109,72 @@ function post_hero_attr( hero_attr, attr_str ) {
         dataType: 'json'
     })
     .done( function ( j_data ) {
-        $('td[id|="field-calc"').each( function () {
-            var $res = null;
-            var id = $(this).attr('id').split('-');
-            var old_val = 0;
-            var calc_val = j_data['data'][id[2]];
-            if( calc_val != undefined ) {
-                $res = $(this).prevAll('td.field-res').first();
-                old_val = parseInt( $(this).text() );
-                $(this).text( calc_val );
-                $res.text( parseInt( $res.text() ) - old_val + calc_val );
-                if( attr_str != 'all' ) {
-                    blink( $res );
-                    blink( $(this) );
-                }
+        $.each( j_data['data'], function( id, val ) {
+            var $field = $( '#field-calc-' + id );
+            var $res = $field.prevAll('td.field-res').first();
+            update_field( $res, val, $field.text() );
+            $field.text( val );
+            if( attr_str != 'all' ) {
+                blink( $res );
+                blink( $(this) );
             }
-        });
+        })
     });
 }
 
-function getView( id, cb ) {
-    $.ajax( 'php/get_view.php?path=' + id ).done( cb );
+function ajax_get_view( $table, $button, hero_attr ) {
+    $.ajax( 'php/get_view.php?path=' + $table.attr('id') )
+        .done( function( data ) {
+            $table.replaceWith( data );
+            toggle_button_view( $button );
+            init_hero_attr( hero_attr, true );
+            bind_hero_attr( hero_attr );
+        });
 }
 
-function toggle_button( button ) {
-    button.next().show();
-    button.hide();
+function toggle_button_confirm( $button ) {
+    $button.next().show();
+    $button.hide();
+}
+function toggle_button_view( $button ) {
+    $button.prev().show();
+    $button.hide();
 }
 
-function shake( elem ) {
+function shake( $elem ) {
     var delta = 3;
     var duration = 50;
-    elem.animate(
-        {marginLeft: delta + "px", marginRight: -delta + "px"},
+    $elem.animate(
+        { marginLeft: delta + "px", marginRight: -delta + "px" },
         duration,
         function() {
-            elem.animate(
+            $elem.animate(
                 {marginLeft: -2*delta + "px", marginRight: 2*delta + "px"},
                 2*duration,
                 function() {
-                    elem.animate({marginLeft:"0px", marginRight:"0px"},
-                    duration);
-                });
-    });
+                    $elem.animate(
+                        { marginLeft:"0px", marginRight:"0px" },
+                        duration
+                    );
+                }
+            );
+        }
+    );
 }
 
 function blink( $elem ) {
     if( !$elem.data('blink') ) {
         $elem.data( 'blink', true );
-        $elem.animate({ backgroundColor: "#dff0d8" }, "fast", function() {
-            $elem.animate({ backgroundColor: "transparent" }, "fast", function () {
-                $elem.data( 'blink', false );
-            });
-        });
+        $elem.animate(
+            { backgroundColor: "#dff0d8" },
+            "fast",
+            function() {
+                $elem.animate( { backgroundColor: "transparent" },
+                    "fast",
+                    function () { $elem.data( 'blink', false ); }
+                );
+            }
+        );
     }
 }
 
@@ -194,6 +214,7 @@ function lvl_hero_attr( $button, delta, min_val ) {
         $button.next().prop('disabled', false );
     }
     $val.text( val );
+    $val.addClass('has-success');
     $res.text( parseInt( $res.text() ) + delta );
     $res.trigger('attrchanged');
     blink( $res );
@@ -215,9 +236,6 @@ function change_to_input( $elem ) {
     $elem.html( $div );
     $input.change( function() {
         var $res = $elem.prevAll('td.field-res').first();
-        var old_val = parseInt( $(this).data( 'old_val' ) );
-        var sum = 0;
-        $(this).data( 'old_val', $(this).val() );
         if( ( $(this).attr('type') === 'number' )
                 && isNaN( parseInt( $(this).val() ) ) ) {
             $(this).parent().addClass('has-error');
@@ -225,13 +243,13 @@ function change_to_input( $elem ) {
         else {
             $(this).parent().removeClass('has-error');
         }
+        // update final value to get a preview of the results
         if( $(this).hasClass('field-sum') ) {
-            sum = parseInt( $res.text() ) + parseInt( $(this).val() ) - old_val;
-            $res.text( sum );
+            update_field( $res, $(this).val(), $(this).data('old_val') );
             blink( $res );
             $res.trigger('attrchanged');
         }
+        $(this).data( 'old_val', $(this).val() );
         $(this).parent().addClass('has-success');
-        // $input.addClass('changed');
     });
 }

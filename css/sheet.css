@@ -15,3 +15,8 @@ div.table-panel * .table {
 div.table-panel > .panel-body {
     position: relative;
 }
+
+div.field-val {
+    float:left;
+    width:20px;
+}

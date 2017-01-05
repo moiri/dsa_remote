@@ -164,28 +164,40 @@ function change_to_lvl( $elem ) {
     var $button = $( '<button type="button" class="btn btn-default btn-xs" aria-label="Left Align"></button>' )
     var $button_plus = $button;
     var $button_minus = $button.clone();
+    $button_minus.prop( 'disabled', true );
     $button_minus
         .append( '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>')
         .click( function () {
-            var $val = $(this).parents('.field-edit').children('.field-val');
-            var val = parseInt( $val.text() );
-            $val.html( val - 1);
+            lvl_hero_attr( $(this), -1, parseInt( val ) );
         });
     $button_plus
         .append( '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>')
         .click( function () {
-            var $val = $(this).parents('.field-edit').children('.field-val');
-            var val = parseInt( $val.text() );
-            $val.html( val + 1);
+            lvl_hero_attr( $(this), 1, parseInt( val ) );
         });
     $div.append( $button_plus )
     $div.append( $button_minus );
 
     $elem.html( $div )
-    $elem.prepend( '<span class="field-val">' + val + '</span> ' );
+    $elem.prepend( '<div class="field-val">' + val + '</div>' );
 }
 
-var __old_val;
+function lvl_hero_attr( $button, delta, min_val ) {
+    var $elem = $button.parents('td.field-edit');
+    var $res = $elem.prevAll('td.field-res').first();
+    var $val = $elem.children('.field-val');
+    var val = parseInt( $val.text() ) + delta;
+    if( val <= min_val ) {
+        $button.prop('disabled', true );
+    }
+    else {
+        $button.next().prop('disabled', false );
+    }
+    $val.text( val );
+    $res.text( parseInt( $res.text() ) + delta );
+    $res.trigger('attrchanged');
+    blink( $res );
+}
 
 function change_to_input( $elem ) {
     var $div = $('<div class="form-gruop"></div>');

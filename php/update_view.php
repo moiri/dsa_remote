@@ -34,6 +34,7 @@ switch( $_GET['short'] ) {
         break;
     case 'KL':
         $data['AE'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'AE', $eig );
+        $data['MR'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'MR', $eig );
         break;
     case 'IN':
         $data['FK'] = $sheet->getCalcValueByHeroId( $_SESSION['hero_id'], 'FK', $eig );

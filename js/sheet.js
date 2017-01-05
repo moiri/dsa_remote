@@ -1,11 +1,7 @@
 $(document).ready(function() {
     var hero_attr = {};
     init_hero_attr( hero_attr, false );
-    // register event when a hero attr is changed
-    $('td[id|="hero_attr"]').bind('attrchanged', function() {
-        update_hero_attr( hero_attr, $(this), true );
-        console.log( hero_attr );
-    });
+    bind_hero_attr( hero_attr );
     $('button.btn-lvl').click( function () {
         var $panel = $(this).closest('div.panel-body');
         var $button = $(this).parent();
@@ -71,9 +67,19 @@ $(document).ready(function() {
                 $button.prev().show();
                 $button.hide();
                 init_hero_attr( hero_attr, true );
+                bind_hero_attr( hero_attr );
             });
     });
 });
+
+function bind_hero_attr( hero_attr ) {
+    // register event when a hero attr is changed
+    $('td[id|="hero_attr"]')
+        .unbind('attrchanged')
+        .bind('attrchanged', function() {
+            update_hero_attr( hero_attr, $(this), true );
+    });
+}
 
 function init_hero_attr( hero_attr, propagate ) {
     $('td[id|="hero_attr"]').each( function() {
@@ -87,12 +93,32 @@ function update_hero_attr( hero_attr, $elem, propagate ) {
     hero_attr[id[1]] = $elem.text();
     if( propagate ) post_hero_attr( hero_attr, id[1] );
 }
-function post_hero_attr( hero_attr, id ) {
-    if( id === undefined ) id = 'all';
-    $.post( 'php/update_view.php?short=' + id, { 'eig': hero_attr } )
-        .done( function ( data ) {
-            console.log( JSON.parse(data) );
+
+function post_hero_attr( hero_attr, attr_str ) {
+    $.ajax({
+        type: "POST",
+        url: 'php/update_view.php?short=' + attr_str,
+        data: { 'eig': hero_attr },
+        dataType: 'json'
+    })
+    .done( function ( j_data ) {
+        $('td[id|="field-calc"').each( function () {
+            var $res = null;
+            var id = $(this).attr('id').split('-');
+            var old_val = 0;
+            var calc_val = j_data['data'][id[2]];
+            if( calc_val != undefined ) {
+                $res = $(this).prevAll('td.field-res').first();
+                old_val = parseInt( $(this).text() );
+                $(this).text( calc_val );
+                $res.text( parseInt( $res.text() ) - old_val + calc_val );
+                if( attr_str != 'all' ) {
+                    blink( $res );
+                    blink( $(this) );
+                }
+            }
         });
+    });
 }
 
 function getView( id, cb ) {
@@ -119,6 +145,17 @@ function shake( elem ) {
                     duration);
                 });
     });
+}
+
+function blink( $elem ) {
+    if( !$elem.data('blink') ) {
+        $elem.data( 'blink', true );
+        $elem.animate({ backgroundColor: "#dff0d8" }, "fast", function() {
+            $elem.animate({ backgroundColor: "transparent" }, "fast", function () {
+                $elem.data( 'blink', false );
+            });
+        });
+    }
 }
 
 function change_to_lvl( $elem ) {
@@ -179,6 +216,7 @@ function change_to_input( $elem ) {
         if( $(this).hasClass('field-sum') ) {
             sum = parseInt( $res.text() ) + parseInt( $(this).val() ) - old_val;
             $res.text( sum );
+            blink( $res );
             $res.trigger('attrchanged');
         }
         $(this).parent().addClass('has-success');

@@ -86,11 +86,9 @@ class SheetDbMapper extends BaseDbMapper {
      */
     function getBaseByHeroId( $hid, $bid=null ) {
         $data = array( ':hid' => $hid );
-        $sql = "SELECT b.id, b.name, b.wert_def, b.max_kauf_def,
-            hb.modifikator, hb.kauf, hb.aktiv
-            FROM basis AS b
-            LEFT JOIN held_basis AS hb ON b.id = hb.id_basis
-            AND hb.id_held = :hid";
+        $sql = "SELECT b.*, hb.modifikator, hb.kauf, hb.aktiv FROM basis AS b "
+            ."LEFT JOIN held_basis AS hb ON b.id = hb.id_basis "
+            ."AND hb.id_held = :hid";
         if( $bid != null ) {
             $sql .= " WHERE b.id=:bid";
             $data[':bid'] = $bid;
@@ -110,9 +108,9 @@ class SheetDbMapper extends BaseDbMapper {
      */
     function getCombatByHeroId( $hid, $kid=null ) {
         $data = array( ':hid' => $hid );
-        $sql = "SELECT k.id, k.name, k.wert_def, hk.modifikator "
-            ."FROM kampf AS k LEFT JOIN held_kampf AS hk "
-            ."ON k.id = hk.id_kampf AND hk.id_held = :hid";
+        $sql = "SELECT k.*, hk.modifikator FROM kampf AS k "
+            ."LEFT JOIN held_kampf AS hk ON k.id = hk.id_kampf "
+            ."AND hk.id_held = :hid";
         if( $kid != null ) {
             $sql .= " WHERE k.id=:kid";
             $data[':kid'] = $kid;

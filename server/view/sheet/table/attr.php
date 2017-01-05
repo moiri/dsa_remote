@@ -26,13 +26,14 @@
         print '
         <tr>
             <th>'.$attr['name'].'</th>
-            <td id="hero_attr-'.$attr['short_name'].'" class="field-inc">'
+            <td id="hero_attr-'.$attr['short_name'].'" class="field-res">'
                 .$wert.'</td>
             <td style="display:none" id="held_eigenschaft-wert-'.$attr['id']
-                .'" class="field-edit field-lvl'.$css.'">'.$attr['wert'].'</td>'
+                .'" class="field-edit field-lvl'.$css.' field-sum">'
+                .$attr['wert'].'</td>'
                 .$start.'
             <td style="display:none" id="held_eigenschaft-modifikator-'
-                .$attr['id'].'" class="field-edit field-lvl-show">'
+                .$attr['id'].'" class="field-edit field-lvl-show field-sum">'
                 .$sign.$attr['modifikator'].'</td>
         </tr>
 ';

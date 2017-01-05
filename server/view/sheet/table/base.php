@@ -31,12 +31,12 @@
             <th>'.$attr['name'].'</th>
             <td class="text-muted small text-right field-edit-hide">'
                 .$attr['wert_def'].'</td>
-            <td>'.$wert.'</td>
+            <td class="field-res">'.$wert.'</td>
             <td id="held_basis-modifikator-'.$attr['id']
-                .'" class="field-edit">'.$sign.$attr['modifikator'].'</td>
-            <td>'.$start.'</td>
+                .'" class="field-edit field-sum">'.$sign.$attr['modifikator'].'</td>
+            <td class="field-sum">'.$start.'</td>
             <td id="held_basis-kauf-'.$attr['id']
-                .'" class="field-edit field-lvl">'.$attr['kauf'].'</td>
+                .'" class="field-edit field-lvl field-sum">'.$attr['kauf'].'</td>
             <td>'.$kauf_max
                 .'<span class="text-muted small pull-right">'
                 .$attr['max_kauf_def'].'</span></td>

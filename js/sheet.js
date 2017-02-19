@@ -98,7 +98,9 @@ function update_field( $elem, s_str, d_str ) {
     var t_int = parseInt( $elem.text() );
     var s_int = parseInt( s_str );
     var d_int = parseInt( d_str );
+    if( ( s_int - d_int ) == 0 ) return false;
     $elem.text( t_int + s_int - d_int );
+    return true;
 }
 
 function ajax_get_calc_vals( hero_attr, attr_str ) {
@@ -112,11 +114,12 @@ function ajax_get_calc_vals( hero_attr, attr_str ) {
         $.each( j_data['data'], function( id, val ) {
             var $field = $( '#field-calc-' + id );
             var $res = $field.prevAll('td.field-res').first();
-            update_field( $res, val, $field.text() );
-            $field.text( val );
-            if( attr_str != 'all' ) {
-                blink( $res );
-                blink( $(this) );
+            if( update_field( $res, val, $field.text() ) ) {
+                $field.text( val );
+                if( attr_str != 'all' ) {
+                    blink( $res );
+                    blink( $field );
+                }
             }
         })
     });
@@ -245,9 +248,10 @@ function change_to_input( $elem ) {
         }
         // update final value to get a preview of the results
         if( $(this).hasClass('field-sum') ) {
-            update_field( $res, $(this).val(), $(this).data('old_val') );
-            blink( $res );
-            $res.trigger('attrchanged');
+            if( update_field( $res, $(this).val(), $(this).data('old_val') ) ) {
+                blink( $res );
+                $res.trigger('attrchanged');
+            }
         }
         $(this).data( 'old_val', $(this).val() );
         $(this).parent().addClass('has-success');

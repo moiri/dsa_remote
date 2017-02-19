@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 04, 2017 at 04:00 AM
--- Server version: 5.7.16-0ubuntu0.16.04.1
--- PHP Version: 7.0.8-0ubuntu0.16.04.3
+-- Generation Time: Feb 19, 2017 at 12:55 PM
+-- Server version: 5.7.17-0ubuntu0.16.04.1
+-- PHP Version: 7.0.13-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,7 +31,6 @@ CREATE TABLE `basis` (
   `name` varchar(20) COLLATE utf8_bin NOT NULL,
   `short_name` varchar(3) COLLATE utf8_bin NOT NULL,
   `wert_def` varchar(20) COLLATE utf8_bin NOT NULL,
-  `wert_def_alt` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `max_kauf_def` varchar(10) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -39,12 +38,12 @@ CREATE TABLE `basis` (
 -- Dumping data for table `basis`
 --
 
-INSERT INTO `basis` (`id`, `name`, `short_name`, `wert_def`, `wert_def_alt`, `max_kauf_def`) VALUES
-(00000000001, 'Lebensenergie', 'LE', '(KO+KO+KK)/2', NULL, 'KO/2'),
-(00000000002, 'Ausdauer', 'AU', '(MU+GE+KO)/2', NULL, '2*KO'),
-(00000000003, 'Astralenergie', 'AE', '(MU+IN+CH)/2', '(MU+MU+IN+CH)/2', 'CH'),
-(00000000004, 'Magieresistenz', 'MR', '(MU+KL+KO)/5', NULL, 'MU/2'),
-(00000000005, 'Karmaenergie', 'KE', '?', NULL, NULL);
+INSERT INTO `basis` (`id`, `name`, `short_name`, `wert_def`, `max_kauf_def`) VALUES
+(00000000001, 'Lebensenergie', 'LE', '(KO+KO+KK)/2', 'KO/2'),
+(00000000002, 'Ausdauer', 'AU', '(MU+GE+KO)/2', '2*KO'),
+(00000000003, 'Astralenergie', 'AE', '(MU+IN+CH)/2', 'CH'),
+(00000000004, 'Magieresistenz', 'MR', '(MU+KL+KO)/5', 'MU/2'),
+(00000000005, 'Karmaenergie', 'KE', '?', NULL);
 
 -- --------------------------------------------------------
 
@@ -144,6 +143,7 @@ CREATE TABLE `held_basis` (
   `id_basis` int(11) UNSIGNED ZEROFILL NOT NULL,
   `modifikator` int(2) DEFAULT NULL,
   `kauf` int(2) DEFAULT NULL,
+  `wert_def` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `aktiv` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -151,22 +151,22 @@ CREATE TABLE `held_basis` (
 -- Dumping data for table `held_basis`
 --
 
-INSERT INTO `held_basis` (`id`, `id_held`, `id_basis`, `modifikator`, `kauf`, `aktiv`) VALUES
-(00000000001, 00000000001, 00000000001, 9, 0, 1),
-(00000000002, 00000000001, 00000000002, 12, 0, 1),
-(00000000003, 00000000001, 00000000003, 19, 0, 1),
-(00000000004, 00000000001, 00000000005, 0, 0, 0),
-(00000000005, 00000000001, 00000000004, -3, 0, 1),
-(00000000006, 00000000002, 00000000001, 13, 0, 1),
-(00000000007, 00000000002, 00000000002, 10, 0, 1),
-(00000000008, 00000000002, 00000000003, 0, 0, 1),
-(00000000009, 00000000002, 00000000005, 0, 0, NULL),
-(00000000010, 00000000002, 00000000004, -3, 0, 1),
-(00000000011, 00000000003, 00000000001, 13, 0, 1),
-(00000000012, 00000000003, 00000000002, 10, 0, 1),
-(00000000013, 00000000003, 00000000003, 0, 0, 1),
-(00000000014, 00000000003, 00000000005, 0, 0, NULL),
-(00000000015, 00000000003, 00000000004, -3, 0, 1);
+INSERT INTO `held_basis` (`id`, `id_held`, `id_basis`, `modifikator`, `kauf`, `wert_def`, `aktiv`) VALUES
+(00000000001, 00000000001, 00000000001, 9, 0, NULL, 1),
+(00000000002, 00000000001, 00000000002, 12, 0, NULL, 1),
+(00000000003, 00000000001, 00000000003, 19, 0, NULL, 1),
+(00000000004, 00000000001, 00000000005, 0, 0, NULL, 0),
+(00000000005, 00000000001, 00000000004, -3, 0, NULL, 1),
+(00000000006, 00000000002, 00000000001, 13, 0, NULL, 1),
+(00000000007, 00000000002, 00000000002, 10, 0, NULL, 1),
+(00000000008, 00000000002, 00000000003, 0, 0, NULL, 1),
+(00000000009, 00000000002, 00000000005, 0, 0, NULL, NULL),
+(00000000010, 00000000002, 00000000004, -3, 0, NULL, 1),
+(00000000011, 00000000003, 00000000001, 13, 0, NULL, 1),
+(00000000012, 00000000003, 00000000002, 10, 0, NULL, 1),
+(00000000013, 00000000003, 00000000003, 0, 0, NULL, 1),
+(00000000014, 00000000003, 00000000005, 0, 0, NULL, NULL),
+(00000000015, 00000000003, 00000000004, -3, 0, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -191,11 +191,11 @@ CREATE TABLE `held_eigenschaft` (
 INSERT INTO `held_eigenschaft` (`id`, `id_held`, `id_eigenschaft`, `wert`, `start`, `modifikator`, `permanent`) VALUES
 (00000000001, 00000000001, 00000000001, 14, 14, 0, NULL),
 (00000000002, 00000000001, 00000000002, 14, 14, 0, NULL),
-(00000000003, 00000000001, 00000000004, 14, 13, 1, NULL),
+(00000000003, 00000000001, 00000000004, 14, 14, 0, NULL),
 (00000000004, 00000000001, 00000000003, 14, 14, 0, NULL),
 (00000000005, 00000000001, 00000000005, 12, 12, 0, NULL),
 (00000000006, 00000000001, 00000000006, 11, 11, 0, NULL),
-(00000000007, 00000000001, 00000000008, 13, 12, 1, NULL),
+(00000000007, 00000000001, 00000000008, 12, 12, 0, NULL),
 (00000000008, 00000000001, 00000000007, 10, 10, 0, NULL),
 (00000000009, 00000000001, 00000000010, 7, 7, 0, NULL),
 (00000000010, 00000000001, 00000000009, 8, 8, 0, NULL),
@@ -252,26 +252,27 @@ CREATE TABLE `held_kampf` (
   `id` int(11) UNSIGNED ZEROFILL NOT NULL,
   `id_held` int(11) UNSIGNED ZEROFILL NOT NULL,
   `id_kampf` int(11) UNSIGNED ZEROFILL NOT NULL,
-  `modifikator` int(2) DEFAULT NULL
+  `modifikator` int(2) DEFAULT NULL,
+  `wert_def` varchar(20) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `held_kampf`
 --
 
-INSERT INTO `held_kampf` (`id`, `id_held`, `id_kampf`, `modifikator`) VALUES
-(00000000001, 00000000001, 00000000005, 0),
-(00000000002, 00000000001, 00000000006, 0),
-(00000000003, 00000000001, 00000000007, 0),
-(00000000004, 00000000001, 00000000008, 0),
-(00000000005, 00000000002, 00000000005, 0),
-(00000000006, 00000000002, 00000000006, 0),
-(00000000007, 00000000002, 00000000007, 0),
-(00000000008, 00000000002, 00000000008, 0),
-(00000000009, 00000000003, 00000000005, 0),
-(00000000010, 00000000003, 00000000006, 0),
-(00000000011, 00000000003, 00000000007, 0),
-(00000000012, 00000000003, 00000000008, 0);
+INSERT INTO `held_kampf` (`id`, `id_held`, `id_kampf`, `modifikator`, `wert_def`) VALUES
+(00000000001, 00000000001, 00000000005, 0, NULL),
+(00000000002, 00000000001, 00000000006, 0, NULL),
+(00000000003, 00000000001, 00000000007, 0, NULL),
+(00000000004, 00000000001, 00000000008, 0, NULL),
+(00000000005, 00000000002, 00000000005, 0, NULL),
+(00000000006, 00000000002, 00000000006, 0, NULL),
+(00000000007, 00000000002, 00000000007, 0, NULL),
+(00000000008, 00000000002, 00000000008, 0, NULL),
+(00000000009, 00000000003, 00000000005, 0, NULL),
+(00000000010, 00000000003, 00000000006, 0, NULL),
+(00000000011, 00000000003, 00000000007, 0, NULL),
+(00000000012, 00000000003, 00000000008, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -597,7 +598,8 @@ INSERT INTO `kampf` (`id`, `name`, `short_name`, `wert_def`) VALUES
 CREATE TABLE `ls` (
   `id` int(11) UNSIGNED ZEROFILL NOT NULL,
   `name` varchar(1) COLLATE utf8_bin NOT NULL,
-  `AF` float NOT NULL COMMENT 'Aktivierungsfaktor',
+  `AF` int(2) NOT NULL COMMENT 'Aktivierungsfaktor',
+  `kleiner1` int(2) NOT NULL,
   `number` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Lernschwierigkeit, Komplexität';
 
@@ -605,15 +607,15 @@ CREATE TABLE `ls` (
 -- Dumping data for table `ls`
 --
 
-INSERT INTO `ls` (`id`, `name`, `AF`, `number`) VALUES
-(00000000001, 'A', 1, 1),
-(00000000002, 'B', 2, 2),
-(00000000003, 'C', 3, 3),
-(00000000004, 'D', 4, 4),
-(00000000005, 'E', 5, 5),
-(00000000006, 'F', 7.5, 6),
-(00000000007, 'G', 10, 7),
-(00000000008, 'H', 20, 8);
+INSERT INTO `ls` (`id`, `name`, `AF`, `kleiner1`, `number`) VALUES
+(00000000001, 'A', 1, 5, 1),
+(00000000002, 'B', 2, 10, 2),
+(00000000003, 'C', 3, 15, 3),
+(00000000004, 'D', 4, 20, 4),
+(00000000005, 'E', 5, 25, 5),
+(00000000006, 'F', 8, 40, 6),
+(00000000007, 'G', 10, 50, 7),
+(00000000008, 'H', 20, 100, 8);
 
 -- --------------------------------------------------------
 
@@ -734,6 +736,62 @@ INSERT INTO `spomoKurz` (`id`, `name`) VALUES
 (00000000010, 'Wirkungsdauer'),
 (00000000011, 'Reichweite (Berührung)'),
 (00000000012, 'Reichweite (selbst)');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `steigerungskosten`
+--
+
+CREATE TABLE `steigerungskosten` (
+  `id` int(11) UNSIGNED ZEROFILL NOT NULL,
+  `id_ls` int(11) UNSIGNED ZEROFILL NOT NULL,
+  `1` int(4) NOT NULL,
+  `2` int(4) NOT NULL,
+  `3` int(4) NOT NULL,
+  `4` int(4) NOT NULL,
+  `5` int(4) NOT NULL,
+  `6` int(4) NOT NULL,
+  `7` int(4) NOT NULL,
+  `8` int(4) NOT NULL,
+  `9` int(4) NOT NULL,
+  `10` int(4) NOT NULL,
+  `11` int(4) NOT NULL,
+  `12` int(4) NOT NULL,
+  `13` int(4) NOT NULL,
+  `14` int(4) NOT NULL,
+  `15` int(4) NOT NULL,
+  `16` int(4) NOT NULL,
+  `17` int(4) NOT NULL,
+  `18` int(4) NOT NULL,
+  `19` int(4) NOT NULL,
+  `20` int(4) NOT NULL,
+  `21` int(4) NOT NULL,
+  `22` int(4) NOT NULL,
+  `23` int(4) NOT NULL,
+  `24` int(4) NOT NULL,
+  `25` int(4) NOT NULL,
+  `26` int(4) NOT NULL,
+  `27` int(4) NOT NULL,
+  `28` int(4) NOT NULL,
+  `29` int(4) NOT NULL,
+  `30` int(4) NOT NULL,
+  `31` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `steigerungskosten`
+--
+
+INSERT INTO `steigerungskosten` (`id`, `id_ls`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `13`, `14`, `15`, `16`, `17`, `18`, `19`, `20`, `21`, `22`, `23`, `24`, `25`, `26`, `27`, `28`, `29`, `30`, `31`) VALUES
+(00000000001, 00000000001, 1, 2, 3, 4, 6, 7, 8, 10, 11, 13, 14, 16, 17, 19, 21, 22, 24, 26, 27, 29, 31, 33, 34, 36, 38, 40, 42, 44, 45, 47, 50),
+(00000000002, 00000000002, 2, 4, 6, 8, 11, 14, 17, 19, 22, 25, 28, 32, 35, 38, 41, 45, 48, 51, 55, 58, 62, 65, 69, 73, 76, 80, 84, 87, 91, 95, 100),
+(00000000003, 00000000003, 2, 6, 9, 13, 17, 21, 25, 29, 34, 38, 43, 47, 51, 55, 60, 65, 70, 75, 80, 85, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 150),
+(00000000004, 00000000004, 3, 7, 12, 17, 22, 27, 33, 39, 45, 50, 55, 65, 70, 75, 85, 90, 95, 105, 110, 115, 125, 130, 140, 145, 150, 160, 165, 170, 180, 190, 200),
+(00000000005, 00000000005, 4, 9, 15, 21, 28, 34, 41, 48, 55, 65, 70, 80, 85, 95, 105, 110, 120, 130, 135, 145, 155, 165, 170, 180, 190, 200, 210, 220, 230, 240, 250),
+(00000000006, 00000000006, 6, 14, 22, 32, 41, 50, 60, 75, 85, 95, 105, 120, 130, 140, 155, 165, 180, 195, 210, 220, 230, 250, 260, 270, 290, 300, 310, 330, 340, 350, 375),
+(00000000007, 00000000007, 8, 18, 30, 42, 55, 70, 85, 95, 110, 125, 140, 160, 175, 190, 210, 220, 240, 260, 270, 290, 310, 330, 340, 360, 380, 400, 420, 440, 460, 480, 500),
+(00000000008, 00000000008, 16, 35, 60, 85, 110, 140, 165, 195, 220, 250, 280, 320, 350, 380, 410, 450, 480, 510, 550, 580, 620, 650, 690, 720, 760, 800, 830, 870, 910, 950, 1000);
 
 -- --------------------------------------------------------
 
@@ -1569,6 +1627,13 @@ ALTER TABLE `spomoKurz`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `steigerungskosten`
+--
+ALTER TABLE `steigerungskosten`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `steigerungskosten_ls_idfk_1` (`id_ls`);
+
+--
 -- Indexes for table `talent`
 --
 ALTER TABLE `talent`
@@ -1729,6 +1794,11 @@ ALTER TABLE `spomo`
 ALTER TABLE `spomoKurz`
   MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
+-- AUTO_INCREMENT for table `steigerungskosten`
+--
+ALTER TABLE `steigerungskosten`
+  MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
 -- AUTO_INCREMENT for table `talent`
 --
 ALTER TABLE `talent`
@@ -1850,6 +1920,12 @@ ALTER TABLE `held_zauber`
 --
 ALTER TABLE `spomo`
   ADD CONSTRAINT `spomo_idfk_1` FOREIGN KEY (`id_spomoKurz`) REFERENCES `spomoKurz` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `steigerungskosten`
+--
+ALTER TABLE `steigerungskosten`
+  ADD CONSTRAINT `steigerungskosten_ls_idfk_1` FOREIGN KEY (`id_ls`) REFERENCES `ls` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `talent`
